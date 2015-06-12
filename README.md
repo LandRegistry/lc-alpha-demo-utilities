@@ -1,2 +1,2 @@
-# lc-alpha-b2b-api
-B2B API for the Digital Land Charges alpha
+# Land Charges Alpha: Demonstration Utilities
+Utilities for demonstrating the B2B prototype.
