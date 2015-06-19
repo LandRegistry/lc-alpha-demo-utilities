@@ -3,3 +3,5 @@ itsdangerous
 markupsafe
 requests
 gunicorn
+jsonpickle
+
