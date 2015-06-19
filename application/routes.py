@@ -1,8 +1,9 @@
-from flask import request, Response, render_template, requests
+from flask import request, Response, render_template
 import logging
 from application import app
 import jsonpickle
 import json
+import requests
 
 
 @app.route('/', methods=["GET"])
@@ -86,7 +87,7 @@ def additional_address():
 def submit_registration(application):
 	logging.info("submit_registration")
 
-	print("Submit to API ........." + application )
+	print("Submit to API ........." + str(application) )
 	# Call rest service to do search
 
 	url = 'http://10.0.2.2:5001/register'
@@ -94,7 +95,7 @@ def submit_registration(application):
 
 	headers = {'Content-Type': 'application/json'}
 
-	response = requests.post(url, data=json.dumps(data), headers=headers)
+	response = requests.post(url, data=json.dumps(application), headers=headers)
 
 
 
