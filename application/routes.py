@@ -80,8 +80,8 @@ def additional_address():
 		json_reg_str = jsonpickle.encode(registration)
 		return render_template('regn_addresses.html', regnDetails = registration, regDataAsJSON = json_reg_str)
 	else:
-		submit_registration(format_json(registration))
-		return render_template('regn_debtor.html')
+		return submit_registration(format_json(registration))
+
 
 
 def submit_registration(application):
@@ -95,8 +95,15 @@ def submit_registration(application):
 
 	headers = {'Content-Type': 'application/json'}
 
-	response = requests.post(url, data=json.dumps(application), headers=headers)
+	response = requests.post(url, data=application, headers=headers)
 
+	if response.status_code == 200:
+		print('good response ***********')
+		return render_template('regn_debtor.html')
+	else:
+		print('bad response ***********')
+		print(response.text)
+		return Response(response.status_code)
 
 
 
@@ -117,7 +124,13 @@ def format_json(registration):
 			investment_addresses.append(dic)
 
 	names_dic = {'forenames' :[registration.forenames],'surname': registration.surname}
-	alt_names_dic = {'forenames' :[registration.alt_forename],'surname': registration.alt_surname}
+	alt_name = {'forenames' :[registration.alt_forename],'surname': registration.alt_surname}
+	alt_names_dic =[alt_name]
+
+	if registration.withheld =='false':
+		withheld = False
+	else:
+		withheld = True
 
 	data = { 'key_number': registration.key_number,
 			 'application_ref' :registration.application_ref,
@@ -128,14 +141,14 @@ def format_json(registration):
 			 'occupation' :registration.occupation,
 			 'trading_name' :registration.trading_name,
 			 'residence' :residence_addresses,
-			 'residence_withheld' :registration.withheld,
-			 'business_address' :business_address,
+			 'residence_withheld' :withheld,
+			 'business_address' :business_address[0],
 			 'date_of_birth' :registration.date_of_birth,
 			 'investment_property' :investment_addresses
 
 	}
 
-	return data;
+	return json.dumps(data);
 
 
 
