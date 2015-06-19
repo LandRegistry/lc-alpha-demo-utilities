@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bankruptcy registration</title>
+    {% include 'includes/ext_references.html' %}
+    <script type="text/javascript">
+    <!--
+       function toggle_visibility(id) {
+           var e = document.getElementById(id);
+           if(e.style.display == 'block')
+                e.style.display = 'none';
+            else
+                e.style.display = 'block';
+        }
+    //-->
+    </script>
+</head>
+<body>
+    {% include 'includes/vertical_nav.html' %}
+    <div id="main" class="container" >
+        <div class="container" >
+            <div class="row">
+                <h2>Register a bankruptcy</h2><br/>
+                <form action="/residence" method="POST">
+                    <div class="row col-sm-12">
+                        <div class="col-sm-7">
+                            <h4>Debtor Address Details</h4>
+                            <br/>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                <p>Is the residence withheld?</p>
+                                </div>
+                                <div class="col-sm-8">
+                                <input type="radio" id="withheld1" name="withheld" value="false" onchange="toggle_visibility('residence_address');" checked />
+                                <label for="withheld1">No</label><br/>
+                                <input type="radio" id="withheld2" name="withheld" value="true" onchange="toggle_visibility('residence_address');"/>
+                                <label for="withheld2">Yes</label>
+                                </div>
+                            </div>
+                            <br/><br/>
+                                <div id="residence_address" style="display:block">
+                                    <h4>Residence Address</h4>
+                                    <br/>
+                                    <div class="form-group">
+                                        <label for="name_or_number" class="col-sm-4">House name or no:</label>
+                                        <input type="text" id="name_or_number" name="name_or_number" value="{{name_or_number}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="street" class="col-sm-4">Street:</label>
+                                        <input type="text" id="street" name="street" value="{{street}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="town" class="col-sm-4">Town:</label>
+                                        <input type="text" id="town" name="town" value="{{town}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="postcode" class="col-sm-4">Postcode:</label>
+                                        <input type="text" id="postcode" name="postcode" value="{{postcode}}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                     <p><strong>Add another address:</strong></p>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input id="address0" name="add_address" type="radio" value="no" checked/>
+                                    <label for="address0">No</label><br/>
+                                    <input id="address1" name="add_address" type="radio" value="yes" />
+                                    <label id="label_address1" for="address1">Yes</label><br/>
+                                </div>
+                        </div>
+                        <div class="col-sm-5 gray-panel" >
+                            <div class="form-group">
+                                <h4>Summary</h4>
+                                {% if regnDetails.key_number != "" %}
+                                    <div class="col-sm-4">Key Number:</div>
+                                    <div class="col-sm-8">{{regnDetails.key_number}}</div>
+                                {% endif %}
+                                {% if regnDetails.application_ref != "" %}
+                                    <div class="col-sm-4">Reference:</div>
+                                    <div class="col-sm-8">{{regnDetails.application_ref}}</div>
+                                {% endif %}
+                                {% if regnDetails.application_date != "" %}
+                                    <div class="col-sm-4">Date:</div>
+                                    <div class="col-sm-8">{{regnDetails.date}}</div>
+                                {% endif %}
+                                {% if regnDetails.forenames != "" or regnDetails.surname != "" %}
+                                    <div class="col-sm-4">Name:</div>
+                                    <div class="col-sm-8">{{regnDetails.forenames}}  {{regnDetails.surname}}</div>
+                                {% endif %}
+                                {% if regnDetails.alt_forename != "" or regnDetails.alt_surname != "" %}
+                                    <div class="col-sm-4">Alt Name:</div>
+                                    <div class="col-sm-8">{{regnDetails.alt_forename}} {{regnDetails.alt_surname}}</div>
+                                {% endif %}
+                                {% if regnDetails.date_of_birth != "" %}
+                                    <div class="col-sm-4">DOB:</div>
+                                    <div class="col-sm-8">{{regnDetails.date_of_birth}}</div>
+                                {% endif %}
+                                {% if regnDetails.gender != "" %}
+                                    <div class="col-sm-4">Gender:</div>
+                                    <div class="col-sm-8">{{regnDetails.gender}}</div>
+                                {% endif %}
+                                {% if regnDetails.occupation != "" %}
+                                    <div class="col-sm-4">Occupation:</div>
+                                    <div class="col-sm-8">{{regnDetails.occupation}}</div>
+                                {% endif %}
+                                {% if regnDetails.trading_name != "" %}
+                                    <div class="col-sm-4">Trading:</div>
+                                    <div class="col-sm-8">{{regnDetails.trading_name}}</div>
+                                {% endif %}
+                                {% if regDataAsJSON != "" %}
+                                    <input type="hidden" name="regDataAsJSON" value="{{ regDataAsJSON }}" />
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div><br/>
+                    <div class="row col-sm-12">
+                        <input class="btn btn-success pull-right" id="submit" type="submit" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

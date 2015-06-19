@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bankruptcy registration</title>
+    {% include 'includes/ext_references.html' %}
+</head>
+<body>
+    {% include 'includes/vertical_nav.html' %}
+    <div id="main" class="container" >
+        <div class="container" >
+            <div class="row">
+                <h2>Register a bankruptcy</h2>
+
+                <form action="/debtor" method="POST">
+                    <div class="row col-sm-12">
+
+                        <br/>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="key_no" class="col-sm-5">Key number:</label>
+                                <input type="text" id="key_no" name="key_no" value="{{key_no}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="app_ref" class="col-sm-5">Application ref:</label>
+                                <input type="text" id="app_ref" name="reference" value="{{reference}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="app_date" class="col-sm-5">Date:</label>
+                                <input type="text" id="app_date" name="application_date" value="{{application_date}}">
+                            </div>
+                        </div>
+
+                    </div><br/>
+                    <h4>Debtor Details</h4><br/>
+                    <div class="row col-sm-12">
+                        <div class="col-sm-6">
+
+                            <div class="form-group">
+                                <label for="forename" class="col-sm-5">Forename:</label>
+                                <input type="text" id="forename" name="forename" value="{{forename}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="surname" class="col-sm-5">Surname:</label>
+                                <input type="text" id="surname" name="surname" value="{{surname}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="alt_forename" class="col-sm-5">Alternative forename:</label>
+                                <input type="text" id="alt_forename" name="alt_forename" value="{{alt_forename}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="alt_surname" class="col-sm-5">Alternative surname:</label>
+                                <input type="text" id="alt_surname" name="alt_surname" value="{{alt_surname}}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+
+                            <div class="form-group">
+                                <label for="dob" class="col-sm-5">Date of birth:</label>
+                                <input type="text" id="dob" name="dob" value="{{dob}}">
+
+                            </div>
+                            <div class="form-group">
+                                <label for="gender" class="col-sm-5">Gender:</label>
+                                <input type="text" id="gender" name="gender" value="{{gender}}">
+
+                            </div>
+                            <div class="form-group">
+                                <label for="occupation" class="col-sm-5">Occupation:</label>
+                                <input type="text" id="occupation" name="occupation" value="{{occupation}}">
+
+                            </div>
+                            <div class="form-group">
+                                <label for="trading" class="col-sm-5">Trading name:</label>
+                                <input type="text" id="trading" name="trading" value="{{trading}}">
+
+                            </div>
+                        </div>
+                    </div><br/>
+                    <input class="btn btn-primary pull-right" id="submit" type="submit" value="Capture address">
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
