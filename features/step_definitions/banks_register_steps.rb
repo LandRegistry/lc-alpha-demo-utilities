@@ -1,23 +1,31 @@
-Given(/^enter the bankruptcy details$/) do
-  visit( 'http://localhost:5002/insolvency' )
-  page.fill_in "name", :with => "Harry Hopkins"
-  page.fill_in "address", :with => "32 high street, PLymouth"
-  page.fill_in "nature", :with => "pab"
+When(/^I complete a simple PAB$/) do
+    page.fill_in "key_no", :with => "2244095"
+    page.fill_in "app_ref", :with => "My ref"
+    page.fill_in "app_date", :with => "2015-09-09"
+    page.fill_in "forename", :with => "Larry"
+    page.fill_in "surname", :with => "David"
+    page.fill_in "dob", :with => "1970-09-09"
+    page.fill_in "gender", :with => "Male"
 end
 
-Then (/^I see the complete page$/) do
-    page.should have_content("Registration Complete")
+When(/^I complete a business address$/) do
+    page.fill_in "name_or_number", :with => "Seaton Court"
+    page.fill_in "street", :with => "William Prance Road"
+    page.fill_in "town", :with => "Plymouth"
+    page.fill_in "postcode", :with => "PL5 8AA"
 end
 
-Then (/^I click Next for new registration$/) do
-  click_link('Next')
-  page.should have_no_content("Registration Complete")
+When(/^I choose to add investment address$/) do
+    choose('address_type3')
 end
 
-Given(/^I enter no input details$/) do
-  visit( 'http://localhost:5002/insolvency' )
+When(/^I complete an investment address$/) do
+    page.fill_in "name_or_number", :with => "1A"
+    page.fill_in "street", :with => "By the Beach"
+    page.fill_in "town", :with => "Corfu"
+    page.fill_in "postcode", :with => "PL11 2AA"
 end
 
-Then (/^I see errors$/) do
-    page.should have_content("Missing")
+When(/^I select that the address has been withheld$/) do
+    choose('withheld2')
 end

@@ -132,12 +132,6 @@ def format_json(registration):
 	else:
 		withheld = True
 
-	if len(business_address) == 0:
-		business = []
-	else:
-		business = business_address[0]
-
-
 	data = { 'key_number': registration.key_number,
 			 'application_ref' :registration.application_ref,
 			 'date' :registration.date,
@@ -148,11 +142,13 @@ def format_json(registration):
 			 'trading_name' :registration.trading_name,
 			 'residence' :residence_addresses,
 			 'residence_withheld' :withheld,
-			 'business_address' :business,
 			 'date_of_birth' :registration.date_of_birth,
 			 'investment_property' :investment_addresses
-
 	}
+
+	if len(business_address) > 0:
+		data["business_address"] = business_address[0]
+
 
 	return json.dumps(data);
 
