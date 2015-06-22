@@ -87,7 +87,7 @@ def additional_address():
 def submit_registration(application):
 	logging.info("submit_registration")
 
-	print("Submit to API ........." + str(application) )
+	#print("Submit to API ........." + str(application) )
 	# Call rest service to do search
 
 	url = 'http://10.0.2.2:5001/register'
@@ -132,6 +132,12 @@ def format_json(registration):
 	else:
 		withheld = True
 
+	if len(business_address) == 0:
+		business = []
+	else:
+		business = business_address[0]
+
+
 	data = { 'key_number': registration.key_number,
 			 'application_ref' :registration.application_ref,
 			 'date' :registration.date,
@@ -142,7 +148,7 @@ def format_json(registration):
 			 'trading_name' :registration.trading_name,
 			 'residence' :residence_addresses,
 			 'residence_withheld' :withheld,
-			 'business_address' :business_address[0],
+			 'business_address' :business,
 			 'date_of_birth' :registration.date_of_birth,
 			 'investment_property' :investment_addresses
 
