@@ -15,7 +15,6 @@
                     <div class="row col-sm-12">
                         <h4 class="error">Unable to submit application</h4>
                         <h5 class="error">{{error}}</h5>
-
                         <div class="col-sm-5">
                                 <h4>Debtor details</h4>
                                 <label for="key_no" class="col-sm-5">Key number:</label>
@@ -54,35 +53,32 @@
                                 <input type="radio" id="withheld2" name="withheld" value="true" checked/>
                                 <label for="withheld2">Yes</label>
                             {% endif %}
-
                         </div>
-
                         <div class="col-sm-7">
                             {% if regnDetails.addressList | length > 0  %}
                                 <h4>Addresses</h4>
+                                {% for item in regnDetails.addressList %}
+                                    {% if item.address_type == "residence" %}
+                                        <div class="col-sm-2">Residence:</div>
+                                    {% elif item.address_type == "business" %}
+                                        <div class="col-sm-2">Business:</div>
+                                    {% else %}
+                                        <div class="col-sm-2">Investment:</div>
+                                    {% endif %}
+                                        <div class="col-sm-10">
+                                            <input hidden name="address_type_{{loop.index}}" value="{{item.address_type}}"/>
+                                            <label for="name_or_number_{{loop.index}}" class="col-sm-4">House name or no:</label>
+                                            <input type="text" id="name_or_number_{{loop.index}}" name="name_or_number_{{loop.index}}" value="{{item.name_or_number}}"><br/>
+                                            <label for="street_{{loop.index}}" class="col-sm-4">Street:</label>
+                                            <input type="text" id="street_{{loop.index}}" name="street_{{loop.index}}" value="{{item.street}}"><br/>
+                                            <label for="town_{{loop.index}}" class="col-sm-4">Town:</label>
+                                            <input type="text" id="town_{{loop.index}}" name="town_{{loop.index}}" value="{{item.town}}"><br/>
+                                            <label for="postcode_{{loop.index}}" class="col-sm-4">Postcode:</label>
+                                            <input type="text" id="postcode_{{loop.index}}" name="postcode_{{loop.index}}" value="{{item.postcode}}"><br/>
+                                        </div>
+                                {% endfor %}
                             {% endif %}
-                            {% for item in regnDetails.addressList %}
-                                {% if item.address_type == "residence" %}
-                                    <div class="col-sm-2">Residence:</div>
-                                {% elif item.address_type == "business" %}
-                                    <div class="col-sm-2">Business:</div>
-                                {% else %}
-                                    <div class="col-sm-2">Investment:</div>
-                                {% endif %}
-                                    <div class="col-sm-10">
-                                        <input hidden name="address_type_{{loop.index}}" value="{{item.address_type}}"/>
-                                        <label for="name_or_number_{{loop.index}}" class="col-sm-4">House name or no:</label>
-                                        <input type="text" id="name_or_number_{{loop.index}}" name="name_or_number_{{loop.index}}" value="{{item.name_or_number}}"><br/>
-                                        <label for="street_{{loop.index}}" class="col-sm-4">Street:</label>
-                                        <input type="text" id="street_{{loop.index}}" name="street_{{loop.index}}" value="{{item.street}}"><br/>
-                                        <label for="town_{{loop.index}}" class="col-sm-4">Town:</label>
-                                        <input type="text" id="town_{{loop.index}}" name="town_{{loop.index}}" value="{{item.town}}"><br/>
-                                        <label for="postcode_{{loop.index}}" class="col-sm-4">Postcode:</label>
-                                        <input type="text" id="postcode_{{loop.index}}" name="postcode_{{loop.index}}" value="{{item.postcode}}"><br/>
-                                    </div>
-                            {% endfor %}
                             </div>
-
                     </div><br/>
                     <div class="row col-sm-12">
                         <input class="btn btn-success pull-right" id="submit" type="submit" value="Re-submit">
