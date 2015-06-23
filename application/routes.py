@@ -136,8 +136,10 @@ def submit_registration(application) -> object:
     url = 'http://10.0.2.2:5001/register'
     headers = {'Content-Type': 'application/json'}
     response = requests.post(url, data=application, headers=headers)
-    if response.status_code != 200:
+    if response.status_code != 202:
         return 'Error ' + str(response.status_code) + ' :- ' + response.text
+    else:
+        return "success"
 
 
 def format_json(registration):
