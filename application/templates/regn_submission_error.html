@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bankruptcy registration</title>
+    {% include 'includes/ext_references.html' %}
+</head>
+<body>
+    {% include 'includes/vertical_nav.html' %}
+    <div id="main" class="container" >
+        <div class="container" >
+            <div class="row">
+                <h2>Register a bankruptcy</h2>
+                <form action="/resubmit" method="POST">
+                    <div class="row col-sm-12">
+                        <h4 class="error">Unable to submit application</h4>
+                        <h5 class="error">{{error}}</h5>
+
+                        <div class="col-sm-5">
+                                <h4>Debtor details</h4>
+                                <label for="key_no" class="col-sm-5">Key number:</label>
+                                <input type="text" id="key_no" name="key_no" value="{{regnDetails.key_number}}"><br/>
+                                <label for="app_ref" class="col-sm-5">Application ref:</label>
+                                <input type="text" id="app_ref" name="reference" value="{{regnDetails.application_ref}}"><br/>
+                                <label for="app_date" class="col-sm-5">Date:</label>
+                                <input type="text" id="app_date" name="application_date" value="{{regnDetails.date}}"><br/>
+                                <label for="forename" class="col-sm-5">Forename:</label>
+                                <input type="text" id="forename" name="forename" value="{{regnDetails.forenames}}"><br/>
+                                <label for="surname" class="col-sm-5">Surname:</label>
+                                <input type="text" id="surname" name="surname" value="{{regnDetails.surname}}"><br/>
+                                <label for="alt_forename" class="col-sm-5">Alternative forename:</label>
+                                <input type="text" id="alt_forename" name="alt_forename" value="{{regnDetails.alt_forename}}"><br/>
+                                <label for="alt_surname" class="col-sm-5">Alternative surname:</label>
+                                <input type="text" id="alt_surname" name="alt_surname" value="{{regnDetails.alt_surname}}"><br/>
+                                <label for="dob" class="col-sm-5">Date of birth:</label>
+                                <input type="text" id="dob" name="dob" value="{{regnDetails.date_of_birth}}"><br/>
+                                <label for="gender" class="col-sm-5">Gender:</label>
+                                <input type="text" id="gender" name="gender" value="{{regnDetails.gender}}"><br/>
+                                <label for="occupation" class="col-sm-5">Occupation:</label>
+                                <input type="text" id="occupation" name="occupation" value="{{regnDetails.occupation}}"><br/>
+                                <label for="trading" class="col-sm-5">Trading name:</label>
+                                <input type="text" id="trading" name="trading" value="{{regnDetails.trading_name}}"><br/><br/>
+                            <div class="col-sm-5">
+                                <p><strong>Is the residence withheld?</strong></p>
+                            </div>
+                            {% if regnDetails.withheld == "false" %}
+                                <input type="radio" id="withheld1" name="withheld" value="false" checked/>
+                                <label for="withheld1">No</label><br/>
+                                <input type="radio" id="withheld2" name="withheld" value="true" />
+                                <label for="withheld2">Yes</label>
+                            {% else %}
+                                <input type="radio" id="withheld1" name="withheld" value="false" />
+                                <label for="withheld1">No</label><br/>
+                                <input type="radio" id="withheld2" name="withheld" value="true" checked/>
+                                <label for="withheld2">Yes</label>
+                            {% endif %}
+
+                        </div>
+
+                        <div class="col-sm-7">
+                            {% if regnDetails.addressList | length > 0  %}
+                                <h4>Addresses</h4>
+                            {% endif %}
+                            {% for item in regnDetails.addressList %}
+                                {% if item.address_type == "residence" %}
+                                    <div class="col-sm-2">Residence:</div>
+                                {% elif item.address_type == "business" %}
+                                    <div class="col-sm-2">Business:</div>
+                                {% else %}
+                                    <div class="col-sm-2">Investment:</div>
+                                {% endif %}
+                                    <div class="col-sm-10">
+                                        <input hidden name="address_type_{{loop.index}}" value="{{item.address_type}}"/>
+                                        <label for="name_or_number_{{loop.index}}" class="col-sm-4">House name or no:</label>
+                                        <input type="text" id="name_or_number_{{loop.index}}" name="name_or_number_{{loop.index}}" value="{{item.name_or_number}}"><br/>
+                                        <label for="street_{{loop.index}}" class="col-sm-4">Street:</label>
+                                        <input type="text" id="street_{{loop.index}}" name="street_{{loop.index}}" value="{{item.street}}"><br/>
+                                        <label for="town_{{loop.index}}" class="col-sm-4">Town:</label>
+                                        <input type="text" id="town_{{loop.index}}" name="town_{{loop.index}}" value="{{item.town}}"><br/>
+                                        <label for="postcode_{{loop.index}}" class="col-sm-4">Postcode:</label>
+                                        <input type="text" id="postcode_{{loop.index}}" name="postcode_{{loop.index}}" value="{{item.postcode}}"><br/>
+                                    </div>
+                            {% endfor %}
+                            </div>
+
+                    </div><br/>
+                    <div class="row col-sm-12">
+                        <input class="btn btn-success pull-right" id="submit" type="submit" value="Re-submit">
+                    </div>
+                    {% if regDataAsJSON != "" %}
+                    <input type="hidden" name="regDataAsJSON" value="{{ regDataAsJSON }}" />
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
