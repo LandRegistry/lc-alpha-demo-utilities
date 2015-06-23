@@ -1,0 +1,50 @@
+{
+  "key_number": "7612476",
+  "application_ref": "6181681",
+  "date": "2014-12-09",
+  "debtor_name": {
+    "forenames": [
+      "Madaline"
+    ],
+    "surname": "Towne"
+  },
+  "debtor_alternative_name": [
+    {
+      "forenames": [
+        "Gudrun"
+      ],
+      "surname": "Rath"
+    },
+    {
+      "forenames": [
+        "Marques"
+      ],
+      "surname": "Towne"
+    }
+  ],
+  "gender": "N/A",
+  "occupation": "Chemist",
+  "trading_name": "Madaline Towne",
+  "residence": [
+    {
+      "address_lines": [
+        "941 Amelia Common",
+        "Hermanchester"
+      ],
+      "postcode": "OE63 4GT"
+    }
+  ],
+  "residence_withheld": false,
+  "business_address": {
+    "address_lines": [
+      "2772 Bashirian Extension",
+      "Lornamouth",
+      "O'Connerview"
+    ],
+    "postcode": "HG23 3RN"
+  },
+  "date_of_birth": "1950-07-14",
+  "investment_property": [
+
+  ]
+}
