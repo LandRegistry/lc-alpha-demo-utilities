@@ -104,6 +104,7 @@ def create_bankruptcy_record(allow_withheld = true)
 
 	# key number
 	data['key_number'] = rand(1000000..9999999).to_s
+	data['application_type'] = rand(0..1) == 1 ? 'PA(B)' : 'WO(B)' # TODO: there will be a relationship between PAB and WOB
 	data['application_ref' ] = rand(1000000..9999999).to_s
 	data['date'] = Faker::Date.backward(365)
 	data['debtor_name'] = fake_name()

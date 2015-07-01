@@ -43,10 +43,9 @@ def generate_old_record
 	debtor_name = bank['debtor_name']
 	encoded_name = encode_name(debtor_name)
 	data['coded_name'] = encoded_name['coded_name']
-
+	data['type'] = bank['application_type']
 	data['county'] = 0
 	data['date'] = Faker::Date.backward(365)
-	data['class'] = rand(0..1) == 1 ? 'PA(B)' : 'WO(B)' # TODO: there will be a relationship between PAB and WOB
 	data['remainder_name'] = encoded_name['remainder_name']
 
 	hex_code = ''
