@@ -131,6 +131,65 @@ def resubmit():
                                error=status)
 
 
+@app.route('/start_search', methods=['GET'])
+def start_search():
+    logging.info("search")
+
+    return render_template('search_debtor.html')
+
+
+@app.route('/search', methods=['POST'])
+def search_details():
+    logging.info("capture search")
+    print("entered search")
+    forename_input = request.form['forename']
+    print(forename_input)
+    surname_input = request.form['surname']
+    complex_input = request.form['complexname']
+
+    logging.info("FN:" + forename_input)
+    print(forename_input, surname_input, complex_input)
+
+    #  Check Inputs
+    if forename_input == "" and surname_input == "" and complex_input == "":
+        logging.info("incomplete")
+        print("incomplete")
+        forename = 'Missing forename'
+        surname = 'Missing surname'
+        complexname = 'Missing complex name'
+        return render_template('search_debtor.html', forename_error=forename, surname_error=surname,
+                               complex_error=complexname)
+    elif forename_input == "" and complex_input == "":
+        forename = 'Missing forename'
+        return render_template('search_debtor.html', forename_error=forename, surname=surname_input)
+    elif surname_input == "" and complex_input == "":
+        surname = 'Missing surname'
+        return render_template('search_debtor.html', surname_error=surname, forename=forename_input)
+    else:
+        # submit search
+        print("submitting the search")
+        url = 'http://10.0.2.2:5004/search'
+        if complex_input == "":
+            data = {
+                'name': request.form['forename'] + " " + request.form['surname']
+            }
+        else:
+            data = {
+                'name': request.form['complexname']
+            }
+
+        headers = {'Content-Type': 'application/json'}
+
+        response = requests.post(url, data=json.dumps(data), headers=headers)
+
+    # return render_template('search_debtor.html', results=response.json(), forename=forename_input, surname=surname_input,
+    #                       complexname=complex_input)
+    temp_result = [{"name": "John Smith", "nature": "WOB"}]
+
+    return render_template('search_debtor.html', results=temp_result, forename=forename_input, surname=surname_input,
+                           complexname=complex_input)
+
+
 def submit_registration(application) -> object:
     logging.info("submit_registration")
     url = 'http://10.0.2.2:5001/register'
