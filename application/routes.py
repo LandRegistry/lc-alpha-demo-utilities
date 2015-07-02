@@ -146,6 +146,7 @@ def search_details():
     print(forename_input)
     surname_input = request.form['surname']
     complex_input = request.form['complexname']
+    database_input = request.form['database']
 
     logging.info("FN:" + forename_input)
     print(forename_input, surname_input, complex_input)
@@ -168,7 +169,11 @@ def search_details():
     else:
         # submit search
         print("submitting the search")
-        url = 'http://10.0.2.2:5004/search'
+        if database_input == 'register':
+            url = 'http://10.0.2.2:5004/search'
+        else:
+            url = 'http://10.0.2.2:5004/search'
+
         if complex_input == "":
             data = {
                 'name': request.form['forename'] + " " + request.form['surname']
