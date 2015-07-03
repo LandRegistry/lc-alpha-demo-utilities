@@ -141,20 +141,16 @@ def start_search():
 @app.route('/search', methods=['POST'])
 def search_details():
     logging.info("capture search")
-    print("entered search")
     forename_input = request.form['forename']
-    print(forename_input)
     surname_input = request.form['surname']
     complex_input = request.form['complexname']
     database_input = request.form['database']
 
     logging.info("FN:" + forename_input)
-    print(forename_input, surname_input, complex_input)
 
     #  Check Inputs
     if forename_input == "" and surname_input == "" and complex_input == "":
         logging.info("incomplete")
-        print("incomplete")
         forename = 'Missing forename'
         surname = 'Missing surname'
         complexname = 'Missing complex name'
@@ -168,36 +164,33 @@ def search_details():
         return render_template('search_debtor.html', surname_error=surname, forename=forename_input)
     else:
         # submit search
-        print("submitting the search")
-        if database_input == 'register':
-            url = 'http://10.0.2.2:5004/search'
+        if database_input == 'reg':
+            url = app.config['B2B_SEARCH_REG_URL'] + '/search'
         else:
-            url = 'http://10.0.2.2:5004/search'
+            url = app.config['B2B_SEARCH_WORK_URL'] + '/search_by_name'
 
         if complex_input == "":
             data = {
-                'name': request.form['forename'] + " " + request.form['surname']
+                'forenames': request.form['forename'],
+                'surname': request.form['surname']
             }
         else:
             data = {
-                'name': request.form['complexname']
+                'forename': ' ',
+                'surname': request.form['complexname']
             }
 
         headers = {'Content-Type': 'application/json'}
 
         response = requests.post(url, data=json.dumps(data), headers=headers)
 
-    # return render_template('search_debtor.html', results=response.json(), forename=forename_input, surname=surname_input,
-    #                       complexname=complex_input)
-    temp_result = [{"name": "John Smith", "nature": "WOB"}]
-
-    return render_template('search_debtor.html', results=temp_result, forename=forename_input, surname=surname_input,
+    return render_template('search_debtor.html', results=response.json(), forename=forename_input, surname=surname_input,
                            complexname=complex_input)
 
 
 def submit_registration(application) -> object:
     logging.info("submit_registration")
-    url = 'http://10.0.2.2:5001/register'
+    url = app.config['B2B_REGISTER_URL'] + '/register'
     headers = {'Content-Type': 'application/json'}
     response = requests.post(url, data=application, headers=headers)
     if response.status_code != 202:

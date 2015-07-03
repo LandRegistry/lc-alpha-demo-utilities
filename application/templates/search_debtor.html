@@ -69,19 +69,21 @@
                 <table id="resultsTable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th class="col-sm-5">Name</th>
-                            <th>Nature</th>
+                            <th class="col-sm-5">Id</th>
+                            <th>Forename</th>
+                            <th>Surname</th>
+                            <th>Json</th>
                         </tr>
                     </thead>
-                    {% for dict_item in results %}
-                    {% for key, value in dict_item.items() %}
+                    {% for n in results %}
                         <tbody>
                             <tr>
-                                <td>{{name}}</td>
-                                <td>{{nature}}</td>
+                                <td>{{n[0]}}</td>
+                                <td>{{n[1]}}</td>
+                                <td>{{n[2]}}</td>
+                                <td>{{n[3]}}</td>
                             </tr>
                         </tbody>
-                    {% endfor %}
                     {% endfor %}
                 </table>
             </div>
