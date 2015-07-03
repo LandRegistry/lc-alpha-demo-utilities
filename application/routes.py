@@ -23,6 +23,7 @@ def debtor_details():
     logging.info("address capture")
     key_no = request.form['key_no']
     reference = request.form['reference']
+    application_type = request.form['application_date']
     application_date = request.form['application_date']
     forename = request.form['forename']
     surname = request.form['surname']
@@ -33,8 +34,8 @@ def debtor_details():
     occupation = request.form['occupation']
     trading = request.form['trading']
 
-    registration = BankruptcyRegnDetails(key_no, reference, application_date, forename, surname, alt_forename,
-                                         alt_surname, dob, gender, occupation, trading)
+    registration = BankruptcyRegnDetails(key_no, reference, application_type, application_date, forename, surname,
+                                         alt_forename, alt_surname, dob, gender, occupation, trading)
 
     json_reg_str = jsonpickle.encode(registration)
 
@@ -102,6 +103,7 @@ def resubmit():
     logging.info("resubmit")
     registration = jsonpickle.decode(request.form['regDataAsJSON'])
     registration.key_number = request.form['key_no']
+    registration.type = request.form['application_type']
     registration.application_ref = request.form['reference']
     registration.date = request.form['application_date']
     registration.forenames = request.form['forename']
@@ -227,6 +229,7 @@ def format_json(registration):
         withheld = True
 
     data = {'key_number': registration.key_number,
+            'application_type': registration.type,
             'application_ref': registration.application_ref,
             'date': registration.date,
             'debtor_name': names_dic,
@@ -246,10 +249,11 @@ def format_json(registration):
 
 
 class BankruptcyRegnDetails(object):
-    def __init__(self, key_no, reference, application_date, forename, surname, alt_forename, alt_surname, dob,
-                 gender, occupation, trading, withheld="", address_list=[]):
+    def __init__(self, key_no, reference, application_type, application_date, forename, surname, alt_forename,
+                 alt_surname, dob, gender, occupation, trading, withheld="", address_list=[]):
         self.key_number = key_no
         self.application_ref = reference
+        self.type = application_type
         self.date = application_date
         self.forenames = forename
         self.surname = surname
