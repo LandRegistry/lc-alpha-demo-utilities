@@ -1,0 +1,43 @@
+{
+  "key_number": "4502369",
+  "application_type": "PA(B)",
+  "application_ref": "5639064",
+  "date": "2015-02-17",
+  "debtor_name": {
+    "forenames": [
+      "Dudley",
+      "Virgil"
+    ],
+    "surname": "Sauer"
+  },
+  "debtor_alternative_name": [
+
+  ],
+  "gender": "N/A",
+  "occupation": "Surveyor",
+  "residence": [
+    {
+      "address_lines": [
+        "108 Konopelski Street",
+        "North Abigail",
+        "Vadaburgh",
+        "Worcestershire"
+      ],
+      "postcode": "NN59 7YX"
+    }
+  ],
+  "residence_withheld": false,
+  "business_address": {
+    "address_lines": [
+      "126 Lacey Trace",
+      "New Rossville",
+      "Hattiemouth",
+      "Durham"
+    ],
+    "postcode": "AE33 5LC"
+  },
+  "date_of_birth": "1973-04-11",
+  "investment_property": [
+
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "key_number": "3157316",
+  "application_type": "WO(B)",
+  "application_ref": "2225308",
+  "date": "2015-04-13",
+  "debtor_name": {
+    "forenames": [
+      "Katarina"
+    ],
+    "surname": "Swaniawski"
+  },
+  "debtor_alternative_name": [
+    {
+      "forenames": [
+        "Halie"
+      ],
+      "surname": "Rosenbaum"
+    }
+  ],
+  "gender": "N/A",
+  "occupation": "Firefighter",
+  "residence": [
+    {
+      "address_lines": [
+        "32798 Block Cliffs",
+        "Hintzhaven",
+        "Leicestershire"
+      ],
+      "postcode": "BP67 3DL"
+    }
+  ],
+  "residence_withheld": false,
+  "business_address": {
+    "address_lines": [
+      "3858 Nestor Light",
+      "Elmermouth",
+      "Felipabury",
+      "Hampshire"
+    ],
+    "postcode": "KN27 0WR"
+  },
+  "date_of_birth": "1975-08-16",
+  "investment_property": [
+
+  ]
+}

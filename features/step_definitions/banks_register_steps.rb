@@ -1,11 +1,31 @@
-When(/^I complete a simple PAB$/) do
+Given(/^I have selected to register$/) do
+  visit( 'http://localhost:5003/start_registration' )
+end
+
+When(/^I complete a simple PAB "(.*)" "(.*)"$/) do |forename, surname|
     page.fill_in "key_no", :with => "2244095"
     page.fill_in "app_ref", :with => "My ref"
     page.fill_in "app_date", :with => "2015-09-09"
-    page.fill_in "forename", :with => "Larry"
-    page.fill_in "surname", :with => "David"
+    page.fill_in "forename", :with => "#{forename}"
+    page.fill_in "surname", :with => "#{surname}"
     page.fill_in "dob", :with => "1970-09-09"
     page.fill_in "gender", :with => "Male"
+end
+
+When(/^I click Capture address$/) do
+    click_button('submit')
+end
+
+When(/^I complete a residence address$/) do
+    page.fill_in "name_or_number", :with => "34"
+    page.fill_in "street", :with => "Jolly Lane"
+    page.fill_in "town", :with => "Plymouth"
+    page.fill_in "postcode", :with => "PL7 8YT"
+end
+
+When(/^I select to add another address$/) do
+    choose('address1')
+    click_button('submit')
 end
 
 When(/^I complete a business address$/) do
@@ -28,4 +48,9 @@ end
 
 When(/^I select that the address has been withheld$/) do
     choose('withheld2')
+end
+
+Then (/^I see a blank register screen$/) do
+    page.should have_content("Register a bankruptcy")
+    page.should have_no_content("Unable to submit application")
 end

@@ -1,0 +1,43 @@
+{
+  "key_number": "8783383",
+  "application_type": "WO(B)",
+  "application_ref": "1314661",
+  "date": "2014-12-27",
+  "debtor_name": {
+    "forenames": [
+      "Sam",
+      "Carissa"
+    ],
+    "surname": "Reynolds"
+  },
+  "debtor_alternative_name": [
+
+  ],
+  "gender": "N/A",
+  "occupation": "Au pair",
+  "residence": [
+    {
+      "address_lines": [
+        "21762 Tamara Gardens",
+        "North Nicolette",
+        "North Casimerchester",
+        "Mid Glamorgan"
+      ],
+      "postcode": "ET67 6PV"
+    }
+  ],
+  "residence_withheld": false,
+  "business_address": {
+    "address_lines": [
+      "44154 Wolf Haven",
+      "West Santinoburgh",
+      "Rextown",
+      "South Glamorgan"
+    ],
+    "postcode": "FT13 8BE"
+  },
+  "date_of_birth": "1955-10-25",
+  "investment_property": [
+
+  ]
+}

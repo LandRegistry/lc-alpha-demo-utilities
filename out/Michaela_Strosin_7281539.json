@@ -1,0 +1,48 @@
+{
+  "key_number": "5316742",
+  "application_type": "WO(B)",
+  "application_ref": "7281539",
+  "date": "2015-04-30",
+  "debtor_name": {
+    "forenames": [
+      "Michaela",
+      "Enid"
+    ],
+    "surname": "Strosin"
+  },
+  "debtor_alternative_name": [
+    {
+      "forenames": [
+        "Enid",
+        "Michaela"
+      ],
+      "surname": "Witting"
+    }
+  ],
+  "gender": "N/A",
+  "occupation": "Barber",
+  "residence": [
+    {
+      "address_lines": [
+        "6247 Steuber Inlet",
+        "Port Thorashire",
+        "Ashleyhaven",
+        "Surrey"
+      ],
+      "postcode": "AA57 4LL"
+    }
+  ],
+  "residence_withheld": false,
+  "business_address": {
+    "address_lines": [
+      "46796 Corkery Points",
+      "Makennamouth",
+      "Central"
+    ],
+    "postcode": "SA78 3RB"
+  },
+  "date_of_birth": "1991-09-26",
+  "investment_property": [
+
+  ]
+}

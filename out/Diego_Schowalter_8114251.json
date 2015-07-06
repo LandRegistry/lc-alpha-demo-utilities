@@ -1,0 +1,63 @@
+{
+  "key_number": "4872726",
+  "application_type": "WO(B)",
+  "application_ref": "8114251",
+  "date": "2014-08-29",
+  "debtor_name": {
+    "forenames": [
+      "Diego"
+    ],
+    "surname": "Schowalter"
+  },
+  "debtor_alternative_name": [
+    {
+      "forenames": [
+        "Aniya"
+      ],
+      "surname": "Schowalter"
+    }
+  ],
+  "gender": "N/A",
+  "occupation": "Party planner",
+  "residence": [
+    {
+      "address_lines": [
+        "149 Andreanne Camp",
+        "Port Domingo",
+        "Brakusland",
+        "Somerset"
+      ],
+      "postcode": "CS96 8HV"
+    }
+  ],
+  "residence_withheld": false,
+  "business_address": {
+    "address_lines": [
+      "522 Rose Light",
+      "West Afton",
+      "West Midlands"
+    ],
+    "postcode": "BL07 2AK"
+  },
+  "date_of_birth": "1979-07-22",
+  "investment_property": [
+    {
+      "address_lines": [
+        "53729 Cindy Tunnel",
+        "Ardellatown",
+        "North Jarrod",
+        "Tyne and Wear"
+      ],
+      "postcode": "MC85 1AD"
+    },
+    {
+      "address_lines": [
+        "7520 Stiedemann Extensions",
+        "South Wilburn",
+        "Lake Kennastad",
+        "Essex"
+      ],
+      "postcode": "QJ34 8XT"
+    }
+  ]
+}
