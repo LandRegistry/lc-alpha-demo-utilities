@@ -1,0 +1,48 @@
+{
+  "key_number": "7357902",
+  "application_type": "WO(B)",
+  "application_ref": "4338376",
+  "date": "2014-12-16",
+  "debtor_name": {
+    "forenames": [
+      "Orion",
+      "Ole"
+    ],
+    "surname": "Zulauf"
+  },
+  "debtor_alternative_name": [
+    {
+      "forenames": [
+        "Orion"
+      ],
+      "surname": "Zulauf"
+    }
+  ],
+  "gender": "N/A",
+  "occupation": "Factory worker",
+  "trading_name": "Techno-nix",
+  "residence": [
+    {
+      "address_lines": [
+        "4366 Frami Flat",
+        "McClurehaven",
+        "Whiteshire",
+        "Powys"
+      ],
+      "postcode": "FO84 2VM"
+    }
+  ],
+  "residence_withheld": false,
+  "business_address": {
+    "address_lines": [
+      "515 Koss Track",
+      "North Cleoland",
+      "Hampshire"
+    ],
+    "postcode": "DM18 3VO"
+  },
+  "date_of_birth": "1960-01-03",
+  "investment_property": [
+
+  ]
+}

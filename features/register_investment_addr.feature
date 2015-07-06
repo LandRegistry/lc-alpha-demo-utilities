@@ -4,7 +4,7 @@ Feature: Register a PAB where the debtor has 2 investment addresses
 
 Scenario: Registration with investment address
 Given I have selected to register
-When I complete a simple PAB
+When I complete a simple PAB "Abraham" "Lincoln"
 And I click Capture address
 And I complete a residence address
 And I select to add another address

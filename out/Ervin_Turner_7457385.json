@@ -1,0 +1,63 @@
+{
+  "key_number": "3339082",
+  "application_type": "PA(B)",
+  "application_ref": "7457385",
+  "date": "2015-03-01",
+  "debtor_name": {
+    "forenames": [
+      "Ervin",
+      "Nikki"
+    ],
+    "surname": "Turner"
+  },
+  "debtor_alternative_name": [
+    {
+      "forenames": [
+        "Brando"
+      ],
+      "surname": "Turner"
+    }
+  ],
+  "gender": "N/A",
+  "occupation": "Artist",
+  "trading_name": "Relux",
+  "residence": [
+    {
+      "address_lines": [
+        "76874 Pollich Mall",
+        "Port Carlitown",
+        "New Nicolas",
+        "Leicestershire"
+      ],
+      "postcode": "BB70 3DG"
+    }
+  ],
+  "residence_withheld": false,
+  "business_address": {
+    "address_lines": [
+      "5930 Trevor Forge",
+      "Kuhicburgh",
+      "Humberside"
+    ],
+    "postcode": "YM58 8PU"
+  },
+  "date_of_birth": "1951-04-02",
+  "investment_property": [
+    {
+      "address_lines": [
+        "180 Farrell Ford",
+        "Lake Ines",
+        "Gwynedd County"
+      ],
+      "postcode": "WO31 7JD"
+    },
+    {
+      "address_lines": [
+        "8842 Heidenreich Roads",
+        "Harleyburgh",
+        "Northamptonshire"
+      ],
+      "postcode": "DG32 2TP"
+    }
+  ]
+}

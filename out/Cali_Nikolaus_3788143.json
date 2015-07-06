@@ -1,0 +1,47 @@
+{
+  "key_number": "2513021",
+  "application_type": "WO(B)",
+  "application_ref": "3788143",
+  "date": "2014-08-09",
+  "debtor_name": {
+    "forenames": [
+      "Cali",
+      "Joanne"
+    ],
+    "surname": "Nikolaus"
+  },
+  "debtor_alternative_name": [
+    {
+      "forenames": [
+        "Cali"
+      ],
+      "surname": "Nikolaus"
+    }
+  ],
+  "gender": "N/A",
+  "occupation": "Butler",
+  "residence": [
+    {
+      "address_lines": [
+        "4792 Schamberger Circles",
+        "New Dameon",
+        "Abbieshire",
+        "County Tyrone"
+      ],
+      "postcode": "SX12 3LG"
+    }
+  ],
+  "residence_withheld": false,
+  "business_address": {
+    "address_lines": [
+      "10805 Schultz Cove",
+      "New Winfield",
+      "Essex"
+    ],
+    "postcode": "MX61 8OX"
+  },
+  "date_of_birth": "1973-03-06",
+  "investment_property": [
+
+  ]
+}

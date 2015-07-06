@@ -1,0 +1,63 @@
+{
+  "key_number": "1063101",
+  "application_type": "PA(B)",
+  "application_ref": "7671525",
+  "date": "2015-01-05",
+  "debtor_name": {
+    "forenames": [
+      "Russ",
+      "Chelsie"
+    ],
+    "surname": "Lowe"
+  },
+  "debtor_alternative_name": [
+    {
+      "forenames": [
+        "Chelsie",
+        "Russ"
+      ],
+      "surname": "Lowe"
+    }
+  ],
+  "gender": "N/A",
+  "occupation": "Firefighter",
+  "residence": [
+    {
+      "address_lines": [
+        "244 Eulalia Plains",
+        "Kesslerport",
+        "Dyfed"
+      ],
+      "postcode": "KN11 2AQ"
+    }
+  ],
+  "residence_withheld": false,
+  "business_address": {
+    "address_lines": [
+      "8657 Blanca Manors",
+      "Hegmannmouth",
+      "Greater Manchester"
+    ],
+    "postcode": "FG39 4HX"
+  },
+  "date_of_birth": "1952-03-21",
+  "investment_property": [
+    {
+      "address_lines": [
+        "18232 Jamil Brook",
+        "South Cali",
+        "Kent"
+      ],
+      "postcode": "FY51 1UT"
+    },
+    {
+      "address_lines": [
+        "4592 Alden Common",
+        "Greenholtmouth",
+        "South Salma",
+        "Tayside"
+      ],
+      "postcode": "UN26 4DV"
+    }
+  ]
+}
