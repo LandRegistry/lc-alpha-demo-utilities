@@ -2,9 +2,9 @@ Given(/^I have selected to search$/) do
   visit( 'http://localhost:5003/start_search' )
 end
 
-Given(/^I have completed a registration$/) do
+Given(/^I have completed a registration (.*) (.*) (.*)$/) do |type, forename, surname|
     step "I have selected to register"
-    step "I complete a simple PAB"
+    step "I complete a simple PAB #{type} #{forename} #{surname}"
     step "I click Capture address"
     step "I complete a residence address"
     step "I submit the application"

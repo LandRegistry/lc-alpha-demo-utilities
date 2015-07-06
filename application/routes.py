@@ -23,7 +23,7 @@ def debtor_details():
     logging.info("address capture")
     key_no = request.form['key_no']
     reference = request.form['reference']
-    application_type = request.form['application_date']
+    application_type = request.form['application_type']
     application_date = request.form['application_date']
     forename = request.form['forename']
     surname = request.form['surname']

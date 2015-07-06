@@ -2,9 +2,10 @@ Given(/^I have selected to register$/) do
   visit( 'http://localhost:5003/start_registration' )
 end
 
-When(/^I complete a simple PAB "(.*)" "(.*)"$/) do |forename, surname|
+When(/^I complete a simple PAB "(.*)" "(.*)" "(.*)"$/) do |type, forename, surname|
     page.fill_in "key_no", :with => "2244095"
     page.fill_in "app_ref", :with => "My ref"
+    page.fill_in "app_type", :with => "#{type}"
     page.fill_in "app_date", :with => "2015-09-09"
     page.fill_in "forename", :with => "#{forename}"
     page.fill_in "surname", :with => "#{surname}"
