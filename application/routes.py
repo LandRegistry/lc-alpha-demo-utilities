@@ -185,8 +185,12 @@ def search_details():
         headers = {'Content-Type': 'application/json'}
 
         response = requests.post(url, data=json.dumps(data), headers=headers)
+        if response.status_code == 404:
+            final_result = ""
+        else:
+            final_result = response.json()
 
-    return render_template('search_debtor.html', results=response.json(), forename=forename_input, surname=surname_input,
+    return render_template('search_debtor.html', results=final_result, forename=forename_input, surname=surname_input,
                            complexname=complex_input)
 
 
