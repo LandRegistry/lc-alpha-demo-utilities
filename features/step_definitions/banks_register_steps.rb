@@ -57,7 +57,7 @@ Then (/^I see a blank register screen$/) do
 end
 
 Then (/^I see a validation error$/) do
-    page.should have_content("does not match")
+    page.should have_content("Unable to submit application")
 end
 
 Then (/^I see invalid application type screen$/) do
