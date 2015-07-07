@@ -55,3 +55,11 @@ Then (/^I see a blank register screen$/) do
     page.should have_content("Register a bankruptcy")
     page.should have_no_content("Unable to submit application")
 end
+
+Then (/^I see a validation error$/) do
+    page.should have_content("does not match")
+end
+
+Then (/^I see invalid application type screen$/) do
+    page.should have_content("not one of ['PA(B)', 'WO(B)']")
+end
