@@ -95,7 +95,7 @@ def fake_court_details
 end
 
 def fake_timestamp
-	ts = Faker::Time.backward(365).strftime("%Y-%m-%d-%H:%M:%S.")
+	ts = Faker::Time.backward(365).strftime("%Y-%m-%d %H:%M:%S.")
 	ts + Faker::Number.number(6).to_s
 end
 

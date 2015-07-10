@@ -39,6 +39,7 @@ def generate_old_record
 	reg_no = 2000 + rand(0..999)
 	data['timestamp'] = fake_timestamp
 	data['registration_no'] = reg_no
+	data['notice'] = ""
 
 	debtor_name = bank['debtor_name']
 	encoded_name = encode_name(debtor_name)
@@ -47,6 +48,7 @@ def generate_old_record
 	data['county'] = 0
 	data['date'] = Faker::Date.backward(365)
 	data['remainder_name'] = encoded_name['remainder_name']
+	data['complex_name'] = ""
 
 	hex_code = ''
 	encoded_name['hex_code'].each do |num|
@@ -97,9 +99,9 @@ def generate_old_record
 end
 
 def to_separated(data,sep)
-	"\"#{data['timestamp']}\"#{sep}\"#{data['registration_no']}\"#{sep}\"#{data['coded_name']}\"#{sep}" +
-	"\"#{data['county']}\"#{sep}\"#{data['date']}\"#{sep}\"#{data['class']}\"#{sep}\"#{data['remainder_name']}\"#{sep}" +
-	"\"#{data['hex_code']}\"#{sep}\"#{data['address']}\"#{sep}\"#{data['occupation']}\"#{sep}\"#{data['county_text']}\"#{sep}" +
+	"\"#{data['timestamp']}\"#{sep}\"#{data['registration_no']}\"#{sep}\"#{data['notice']}\"#{sep}\"#{data['coded_name']}\"#{sep}" +
+	"\"#{data['county']}\"#{sep}\"#{data['date']}\"#{sep}\"#{data['type']}\"#{sep}\"#{data['remainder_name']}\"#{sep}" +
+	"\"#{data['hex_code']}\"#{sep}\"#{data['complex_name']}\"#{sep}\"#{data['address']}\"#{sep}\"#{data['occupation']}\"#{sep}\"#{data['county_text']}\"#{sep}" +
 	"\"#{data['court_info']}\"#{sep}\"#{data['property']}\"#{sep}\"#{data['parish']}\"#{sep}\"#{data['notice_refs']}\""
 end
 
@@ -113,7 +115,7 @@ end
 
 
 File.open("out/old_data.csv", "w" ) do |file|
-	10.times do |n|
+	100.times do |n|
 		file.puts to_separated(generate_old_record, ",")
 	end
 end
