@@ -37,22 +37,17 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-8" ></div>
-
-                </div>
-                <div class="row col-sm-12">
-                    <div class="col-sm-4" >
-                        <input class="btn btn-primary" name="submit" id="start" type="submit" style="width:100px" value="Start">
-                    </div>
-         <!--       <div class="col-sm-4" >
-                        <div class="btn-group ">
-                            <input class="btn btn-primary" name="submit" id="halt" type="submit" style="width:100px" value="Halt">
+                    <div class="col-sm-8" style="padding-top:60px" >
+                        <div class="row col-sm-12" style="margin-bottom:5px">
+                            <input class="btn btn-primary" name="submit" id="preview" type="submit" style="width:100px" value="Preview">
+                        </div>
+                        <div class="row col-sm-12">
+                            <input class="btn btn-success" name="submit" id="start" type="submit" style="width:100px" value="Migrate">
                         </div>
                     </div>
-                    <div class="col-sm-4" >
-                        <input class="btn btn-primary" name="submit" id="progress" type="submit" style="width:100px" value="Progress">
-                    </div>  -->
+
                 </div>
+
                 <br/>
 
 
@@ -61,33 +56,35 @@
         {% if results is defined %}
         {% if results|length > 0 %}
         <div class="row">
-            <h2>Search Results</h2><br/>
+            <h2>DB2 data to be migrated</h2><br/>
             <table id="resultsTable" class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Forename</th>
-                    <th>Surname</th>
-                    <th>Json</th>
+                    <th>Registration No</th>
+                    <th>Registration Date</th>
+                    <th>Class Type</th>
+                    <th>Reverse Name</th>
+                    <th>Remainder Name</th>
+                    <th>Punctuation Code</th>
                 </tr>
                 </thead>
                 {% for n in results %}
                 <tbody>
                 <tr>
-                    <td>{{n[0]}}</td>
-                    <td>{{n[1]}}</td>
-                    <td>{{n[2]}}</td>
-                    <td>{{n[3]}}</td>
+                    <td>{{n['registration_no']}}</td>
+                    <td>{{n['registration_date']}}</td>
+                    <td>{{n['class_type']}}</td>
+                    <td>{{n['reverse_name']}}</td>
+                    <td>{{n['remainder_name']}}</td>
+                    <td>{{n['punctuation_code']}}</td>
                 </tr>
                 </tbody>
                 {% endfor %}
             </table>
         </div>
-        {% else %}
-        <h3><span class="glyphicon glyphicon-info-sign"></span> Search returned no results</h3>
         {% endif %}
 
-        <form action="/start_search" method="GET">
+        <form action="/migration_dashboard" method="GET">
             <br/>
             <input class="btn btn-primary pull-right" id="reset" type="submit" value="reset">
         </form>
