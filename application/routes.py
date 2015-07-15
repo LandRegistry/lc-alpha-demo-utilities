@@ -23,12 +23,12 @@ def migration_dashboard():
 def migrate():
     logging.info("migration")
 
-    if request.form['submit'] == "Start":
+    start_date = request.form['start_date']
+    end_date = request.form['end_date']
 
-        start_date = request.form['start_date']
-        end_date = request.form['end_date']
+    if is_date_valid(start_date) and is_date_valid(end_date):
 
-        if is_date_valid(start_date) and is_date_valid(end_date):
+        if request.form['submit'] == "Migrate":
 
             url = app.config['DB2_MIGRATOR_URL'] + '/begin?' + 'start_date=' + start_date + '&' + 'end_date=' + end_date
             response = requests.post(url)
@@ -43,17 +43,28 @@ def migrate():
 
             return render_template('migration.html', response_message=response_message)
 
-        else:
-
+        elif request.form["submit"] == "Preview":
+            # functionality not coded for alpha
+            url = app.config['DB2_LEGACY_URL'] + '/land_charge?' + 'start_date=' + start_date + '&' + 'end_date=' + end_date
+            response = requests.get(url)
+            if response.status_code == 404:
+                final_result = ""
+                response_message = "No data found for date range " + start_date + ' to ' + end_date
+            else:
+                final_result = response.json()
+                response_message =""
             return render_template('migration.html', start_date=start_date, end_date=end_date,
-                                   error="Incorrect date format, should be YYYY-MM-DD")
-
-    elif request.form["submit"] == "Halt":
-        # functionality not coded for alpha
-        print("halt migration")
+                                   results=final_result, response_message=response_message)
+        elif request.form["submit"] == "Halt":
+            # functionality not coded for alpha
+            print("halt migration")
+        else:
+            # functionality not coded for alpha
+            print("check migration progress")
     else:
-        # functionality not coded for alpha
-        print("check migration progress")
+
+        return render_template('migration.html', start_date=start_date, end_date=end_date,
+                               error="Incorrect date format, should be YYYY-MM-DD")
 
 
 @app.route('/start_registration', methods=['GET'])
@@ -233,6 +244,8 @@ def search_details():
         if response.status_code == 404:
             final_result = ""
         else:
+            print('Response code is ' + str(response.status_code))
+            print("JSON = " + json.dumps(response.json))
             final_result = response.json()
 
     return render_template('search_debtor.html', results=final_result, forename=forename_input, surname=surname_input,
