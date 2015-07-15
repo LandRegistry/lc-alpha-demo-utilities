@@ -4,11 +4,56 @@ from application import app
 import jsonpickle
 import json
 import requests
+import datetime
 
 
 @app.route('/', methods=["GET"])
 def index():
     return render_template('index.html')
+
+
+@app.route('/migration_dashboard', methods=['GET'])
+def migration_dashboard():
+    logging.info("migration")
+
+    return render_template('migration.html')
+
+
+@app.route('/migrate', methods=['POST'])
+def migrate():
+    logging.info("migration")
+
+    if request.form['submit'] == "Start":
+
+        start_date = request.form['start_date']
+        end_date = request.form['end_date']
+
+        if is_date_valid(start_date) and is_date_valid(end_date):
+
+            url = app.config['DB2_MIGRATOR_URL'] + '/begin?' + 'start_date=' + start_date + '&' + 'end_date=' + end_date
+            response = requests.post(url)
+
+            if response.status_code == 200:
+                response_message = "Migration successfully completed for date range " + start_date + ' to ' + end_date
+            elif response.status_code == 404:
+                response_message = "No data found for date range " + start_date + ' to ' + end_date
+            else:
+                error = "HTTP Error: " + str(response.status_code) + " Migration failed"
+                return render_template('migration.html', error=error)
+
+            return render_template('migration.html', response_message=response_message)
+
+        else:
+
+            return render_template('migration.html', start_date=start_date, end_date=end_date,
+                                   error="Incorrect date format, should be YYYY-MM-DD")
+
+    elif request.form["submit"] == "Halt":
+        # functionality not coded for alpha
+        print("halt migration")
+    else:
+        # functionality not coded for alpha
+        print("check migration progress")
 
 
 @app.route('/start_registration', methods=['GET'])
@@ -276,3 +321,11 @@ class Address(object):
         self.street = street
         self.town = town
         self.postcode = postcode
+
+
+def is_date_valid(date_text):
+    try:
+        datetime.datetime.strptime(date_text, '%Y-%m-%d')
+        return True
+    except ValueError:
+        return False
