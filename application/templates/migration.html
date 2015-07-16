@@ -89,6 +89,26 @@
             <input class="btn btn-primary pull-right" id="reset" type="submit" value="reset">
         </form>
         {% endif %}
+
+        {% if migrate_error is defined %}
+        <div class="row">
+            <h2>Migration errors for this run</h2><br/>
+            <table id="errorTable" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Error Details</th>
+                </tr>
+                </thead>
+                {% for n in migrate_error %}
+                <tbody>
+                <tr>
+                    <td>{{n}}</td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
     </div>
 </div>
 

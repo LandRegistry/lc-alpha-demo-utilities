@@ -35,6 +35,10 @@ def migrate():
 
             if response.status_code == 200:
                 response_message = "Migration successfully completed for date range " + start_date + ' to ' + end_date
+            elif response.status_code == 202:
+                response_message = "Migration completed with errors for dates range " + start_date + ' to ' + end_date
+                migrate_error = response.json()
+                return render_template('migration.html', migrate_error=migrate_error, response_message=response_message)
             elif response.status_code == 404:
                 response_message = "No data found for date range " + start_date + ' to ' + end_date
             else:
@@ -52,7 +56,7 @@ def migrate():
                 response_message = "No data found for date range " + start_date + ' to ' + end_date
             else:
                 final_result = response.json()
-                response_message =""
+                response_message = ""
             return render_template('migration.html', start_date=start_date, end_date=end_date,
                                    results=final_result, response_message=response_message)
         elif request.form["submit"] == "Halt":
