@@ -202,58 +202,70 @@ def start_search():
 
 @app.route('/search', methods=['POST'])
 def search_details():
-    logging.info("capture search")
-    forename_input = request.form['forename']
-    surname_input = request.form['surname']
-    complex_input = request.form['complexname']
-    database_input = request.form['database']
 
-    logging.info("FN:" + forename_input)
+    logging.info("capture search")
+    forename_input = request.form['forename'] if 'forename' in request.form else ""
+    surname_input = request.form['surname'] if 'surname' in request.form else ""
+    complex_input = request.form['complexname']  if 'complexname' in request.form else ""
+    db2_reg_no_input = request.form['db2_reg_no'] if 'db2_reg_no' in request.form else ""
+    database_input = request.form['database'] if 'database' in request.form else "reg"
 
     #  Check Inputs
-    if forename_input == "" and surname_input == "" and complex_input == "":
+    if forename_input == "" and surname_input == "" and complex_input == "" and db2_reg_no_input == "":
         logging.info("incomplete")
         forename = 'Missing forename'
         surname = 'Missing surname'
         complexname = 'Missing complex name'
+        db2_reg_no = 'Missing registration number'
         return render_template('search_debtor.html', forename_error=forename, surname_error=surname,
-                               complex_error=complexname)
-    elif forename_input == "" and complex_input == "":
+                               complex_error=complexname, db2_reg_no_error=db2_reg_no)
+    elif forename_input == "" and complex_input == "" and db2_reg_no_input == "":
         forename = 'Missing forename'
         return render_template('search_debtor.html', forename_error=forename, surname=surname_input)
-    elif surname_input == "" and complex_input == "":
+    elif surname_input == "" and complex_input == "" and db2_reg_no_input == "":
         surname = 'Missing surname'
         return render_template('search_debtor.html', surname_error=surname, forename=forename_input)
     else:
         # submit search
+        get_url = ""
+        post_url = ""
         if database_input == 'reg':
-            url = app.config['B2B_SEARCH_REG_URL'] + '/search'
+            if db2_reg_no_input != "":
+                get_url = app.config['B2B_SEARCH_REG_URL'] + '/migrated_registration/' + db2_reg_no_input
+            else:
+                post_url = app.config['B2B_SEARCH_REG_URL'] + '/search'
         else:
-            url = app.config['B2B_SEARCH_WORK_URL'] + '/search_by_name'
+            post_url = app.config['B2B_SEARCH_WORK_URL'] + '/search_by_name'
 
         if complex_input == "":
             data = {
-                'forenames': request.form['forename'],
-                'surname': request.form['surname']
+                'forenames': forename_input,
+                'surname': surname_input
             }
         else:
             data = {
                 'forename': ' ',
-                'surname': request.form['complexname']
+                'surname': complex_input
             }
 
         headers = {'Content-Type': 'application/json'}
 
-        response = requests.post(url, data=json.dumps(data), headers=headers)
-        if response.status_code == 404:
-            final_result = ""
+        if post_url != "":
+            response = requests.post(post_url, data=json.dumps(data), headers=headers)
         else:
-            print('Response code is ' + str(response.status_code))
-            print("JSON = " + json.dumps(response.json))
-            final_result = response.json()
+            response = requests.get(get_url)
 
-    return render_template('search_debtor.html', results=final_result, forename=forename_input, surname=surname_input,
-                           complexname=complex_input)
+        name_result = ""
+        reg_no_result = ""
+
+        if response.status_code != 404:
+            if db2_reg_no_input != "":
+                reg_no_result = response.json()
+            else:
+                name_result = response.json()
+
+    return render_template('search_debtor.html', name_result=name_result, reg_no_result=reg_no_result,
+                           forename=forename_input, surname=surname_input, complexname=complex_input, db2_reg_no=db2_reg_no_input)
 
 
 def submit_registration(application) -> object:

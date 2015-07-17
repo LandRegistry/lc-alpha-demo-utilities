@@ -20,7 +20,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="forename" class="col-sm-2">Forename(s):</label>
-                            <input class="col-sm-4" type="text" id="forename" name="forename" value="{{forename}}">
+                            <input class="col-sm-2" type="text" id="forename" name="forename" value="{{forename}}">
                             {% if forename_error is defined %}
                             <span class="glyphicon glyphicon-remove" style=" color:red"></span> {{forename_error}}
                             {% endif %}
@@ -29,7 +29,7 @@
 
                         <div class="form-group">
                             <label for="surname" class="col-sm-2">Surname:</label>
-                            <input class="col-sm-4" type="text" id="surname" name="surname" value="{{surname}}">
+                            <input class="col-sm-2" type="text" id="surname" name="surname" value="{{surname}}">
                             {% if surname_error is defined %}
                             <span class="glyphicon glyphicon-remove" style=" color:red"></span> {{surname_error}}
                             {% endif %}
@@ -44,52 +44,95 @@
                             <span class="glyphicon glyphicon-remove" style=" color:red"></span> {{complex_error}}
                             {% endif %}
                         </div>
+                        <br/><br>
+                        <div class="form-group">
+                            <label for="db2_reg_no" class="col-sm-2">DB2 Registration No:</label>
+                            <input class="col-sm-2" type="text" id="db2_reg_no" name="db2_reg_no"
+                                   placeholder="" value="{{db2_reg_no}}">
+                            {% if complex_error is defined %}
+                            <span class="glyphicon glyphicon-remove" style=" color:red"></span> {{db2_reg_no_error}}
+                            {% endif %}
+                        </div>
                     </div>
 
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-4">
-                        <br/>
-                        <h4>Which database?</h4>
-                        <input type="radio" id="register" name="database" value="reg" checked/>
-                        <label for="register">Register</label>
-                        <input type="radio" id="worklist" name="database" value="work"/>
-                        <label for="worklist">Worklist</label>
+                <div class="row col-sm-12"  style="margin-top:40px">
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <h4>Which database?</h4>
+                        </div>
+                        <div class="col-sm-4" style="padding-top:10px">
+                            <input type="radio" id="register" name="database" value="reg" checked/>
+                            <label for="register">Register</label><br/>
+                            <input type="radio" id="worklist" name="database" value="work"/>
+                            <label for="worklist">Worklist</label>
+                        </div>
                     </div>
                 </div>
+
                 <br/>
 
                 <input class="btn btn-primary pull-right" id="submit" type="submit" value="Search">
             </form>
         </div>
-        {% if results is defined %}
-        {% if results|length > 0 %}
+        {% if name_result|length > 0 %}
         <div class="row">
             <h2>Search Results</h2><br/>
-            <table id="resultsTable" class="table table-hover">
+            <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Forename</th>
-                    <th>Surname</th>
-                    <th>Json</th>
+                    <th>Registration No</th>
+                    <th>Registration Date</th>
+                    <th>Class</th>
                 </tr>
                 </thead>
-                {% for n in results %}
+                {% for n in name_result %}
                 <tbody>
                 <tr>
-                    <td>{{n[0]}}</td>
-                    <td>{{n[1]}}</td>
-                    <td>{{n[2]}}</td>
-                    <td>{{n[3]}}</td>
+                    <td>{{n['registration_no']}}</td>
+                    <td>{{n['registration_date']}}</td>
+                    <td>{{n['application_type']}}</td>
                 </tr>
                 </tbody>
                 {% endfor %}
             </table>
         </div>
-        {% else %}
-        <h3><span class="glyphicon glyphicon-info-sign"></span> Search returned no results</h3>
         {% endif %}
+        {% if reg_no_result|length > 0 %}
+        <div class="row">
+            <h2>Search Results</h2><br/>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th class="col-sm-2" >DB2 Registration No</th>
+                    <th class="col-sm-2" >New Registration No</th>
+                    <th class="col-sm-2" >Registration Date</th>
+                    <th class="col-sm-1" >Class</th>
+                    <th class="col-sm-3" >Forenames</th>
+                    <th class="col-sm-2" >Surname</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for n in reg_no_result %}
+                <tr>
+                    <td>{{n['legacy']['original_registration']}}</td>
+                    <td>{{n['registration_no']}}</td>
+                    <td>{{n['registration_date']}}</td>
+                    <td>{{n['application_type']}}</td>
+                    <td>
+                    {% for name in n['debtor_name']['forenames'] %}
+                        {{name}}
+                    {% endfor %}
+                    </td>
+                    <td>{{n['debtor_name']['surname']}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        {% if name_result|length > 0  and reg_no_result|length > 0 %}
+        <h3><span class="glyphicon glyphicon-info-sign"></span> Search returned no results</h3>
         {% endif %}
         <form action="/start_search" method="GET">
             <br/>
