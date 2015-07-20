@@ -145,7 +145,7 @@ def create_bankruptcy_record(allow_withheld = true)
 	else
 		data['residence'] = [ fake_address ]
 		if rand(0..6) == 0
-			data['residence'] = [ fake_address ]
+			data['residence'].push( fake_address )
 		end
 		data['residence_withheld' ] = false
 	end
