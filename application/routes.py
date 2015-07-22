@@ -49,7 +49,8 @@ def migrate():
 
         elif request.form["submit"] == "Preview":
             # functionality not coded for alpha
-            url = app.config['DB2_LEGACY_URL'] + '/land_charge?' + 'start_date=' + start_date + '&' + 'end_date=' + end_date
+            url = app.config[
+                      'DB2_LEGACY_URL'] + '/land_charge?' + 'start_date=' + start_date + '&' + 'end_date=' + end_date
             response = requests.get(url)
             if response.status_code == 404:
                 final_result = ""
@@ -202,13 +203,12 @@ def start_search():
 
 @app.route('/search', methods=['POST'])
 def search_details():
-
     logging.info("capture search")
     forename_input = request.form['forename'] if 'forename' in request.form else ""
     surname_input = request.form['surname'] if 'surname' in request.form else ""
-    complex_input = request.form['complexname']  if 'complexname' in request.form else ""
-    db2_reg_no_input = request.form['db2_reg_no'] if 'db2_reg_no' in request.form else ""
+    complex_input = request.form['complexname'] if 'complexname' in request.form else ""
     database_input = request.form['database'] if 'database' in request.form else "reg"
+    db2_reg_no_input = request.form['db2_reg_no'] if 'db2_reg_no' in request.form else ""
 
     #  Check Inputs
     if forename_input == "" and surname_input == "" and complex_input == "" and db2_reg_no_input == "":
@@ -218,13 +218,15 @@ def search_details():
         complexname = 'Missing complex name'
         db2_reg_no = 'Missing registration number'
         return render_template('search_debtor.html', forename_error=forename, surname_error=surname,
-                               complex_error=complexname, db2_reg_no_error=db2_reg_no)
+                               complex_error=complexname, db2_reg_no_error=db2_reg_no, database=database_input)
     elif forename_input == "" and complex_input == "" and db2_reg_no_input == "":
         forename = 'Missing forename'
-        return render_template('search_debtor.html', forename_error=forename, surname=surname_input)
+        return render_template('search_debtor.html', forename_error=forename, surname=surname_input,
+                               database=database_input)
     elif surname_input == "" and complex_input == "" and db2_reg_no_input == "":
         surname = 'Missing surname'
-        return render_template('search_debtor.html', surname_error=surname, forename=forename_input)
+        return render_template('search_debtor.html', surname_error=surname, forename=forename_input,
+                               database=database_input)
     else:
         # submit search
         get_url = ""
@@ -236,6 +238,7 @@ def search_details():
                 post_url = app.config['B2B_SEARCH_REG_URL'] + '/search'
         else:
             post_url = app.config['B2B_SEARCH_WORK_URL'] + '/search_by_name'
+            db2_reg_no_input = ''
 
         if complex_input == "":
             data = {
@@ -265,7 +268,8 @@ def search_details():
                 name_result = response.json()
 
     return render_template('search_debtor.html', name_result=name_result, reg_no_result=reg_no_result,
-                           forename=forename_input, surname=surname_input, complexname=complex_input, db2_reg_no=db2_reg_no_input)
+                           forename=forename_input, surname=surname_input, complexname=complex_input,
+                           db2_reg_no=db2_reg_no_input, database=database_input)
 
 
 def submit_registration(application) -> object:

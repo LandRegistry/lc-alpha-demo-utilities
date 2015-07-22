@@ -19,6 +19,10 @@ When(/^I complete the surname infill with "(.*)"$/) do |surname|
     page.fill_in "surname", :with => "#{surname}"
 end
 
+When(/^I complete the db2_reg_no infill "(.*)"$/) do |db2_reg_no|
+     page.fill_in "db2_reg_no", :with => "#{db2_reg_no}"
+end
+
 When(/^I select the register database$/) do
     choose('register')
 end

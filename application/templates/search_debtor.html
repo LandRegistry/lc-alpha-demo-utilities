@@ -62,10 +62,18 @@
                             <h4>Which database?</h4>
                         </div>
                         <div class="col-sm-4" style="padding-top:10px">
+                            {% if database == 'reg' %}
                             <input type="radio" id="register" name="database" value="reg" checked/>
                             <label for="register">Register</label><br/>
                             <input type="radio" id="worklist" name="database" value="work"/>
                             <label for="worklist">Worklist</label>
+                            {% else %}
+                            <input type="radio" id="register" name="database" value="reg" />
+                            <label for="register">Register</label><br/>
+                            <input type="radio" id="worklist" name="database" value="work" checked/>
+                            <label for="worklist">Worklist</label>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>
@@ -81,17 +89,33 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Registration No</th>
-                    <th>Registration Date</th>
-                    <th>Class</th>
+                    {% if database == 'reg' %}
+                        <th>Registration No</th>
+                        <th>Registration Date</th>
+                        <th>Class</th>
+                    {% else %}
+                        <th>Application Ref</th>
+                        <th>Date</th>
+                        <th>Class</th>
+                        <th>DOB</th>
+                        <th>Residence</th>
+                    {% endif %}
                 </tr>
                 </thead>
                 {% for n in name_result %}
                 <tbody>
                 <tr>
+                {% if database == 'reg' %}
                     <td>{{n['registration_no']}}</td>
                     <td>{{n['registration_date']}}</td>
                     <td>{{n['application_type']}}</td>
+                {% else %}
+                    <td>{{n['application_ref']}}</td>
+                    <td>{{n['date']}}</td>
+                    <td>{{n['application_type']}}</td>
+                    <td>{{n['date_of_birth']}}</td>
+                    <td>{{n['residence']}}</td>
+                {% endif %}
                 </tr>
                 </tbody>
                 {% endfor %}
@@ -115,7 +139,7 @@
                 <tbody>
                 {% for n in reg_no_result %}
                 <tr>
-                    <td>{{n['legacy']['original_registration']}}</td>
+                    <td>{{db2_reg_no}}</td>
                     <td>{{n['registration_no']}}</td>
                     <td>{{n['registration_date']}}</td>
                     <td>{{n['application_type']}}</td>
@@ -131,7 +155,7 @@
             </table>
         </div>
         {% endif %}
-        {% if name_result|length > 0  and reg_no_result|length > 0 %}
+        {% if name_result|length == 0 and reg_no_result|length == 0 %}
         <h3><span class="glyphicon glyphicon-info-sign"></span> Search returned no results</h3>
         {% endif %}
         <form action="/start_search" method="GET">
