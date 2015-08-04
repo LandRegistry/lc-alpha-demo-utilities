@@ -1,10 +1,12 @@
+
+
 Given(/^I have selected to migrate from db2$/) do
   visit( 'http://localhost:5003/migration_dashboard' )
 end
 
 When(/^I enter valid dates with corresponding data in db2$/) do
-    page.fill_in "start_date", :with => "2015-01-01"
-    page.fill_in "end_date", :with => "2015-01-31"
+    page.fill_in "start_date", :with => "2014-01-01"
+    page.fill_in "end_date", :with => "2014-01-31"
 end
 
 When(/^I enter valid dates with no corresponding data in db2$/) do
