@@ -55,11 +55,11 @@ end
 
 After do |scenario|
     if scenario.name == "Valid dates entered and migration completes successfully"
-        ids = `vagrant ssh -c "psql -d landcharges -c \\"select register_id from migration_status where original_regn_no in ('2435','2434','3423','4343');\\""`.split(/\r?\n/)
+        ids = `vagrant ssh -c "psql -d landcharges -c 'select register_id from migration_status where original_regn_no in (2435,2434,3423,4343);'"`.split(/\r?\n/)
         param = '(' + ids[2..-2].join(',') + ')'
 
-        `vagrant ssh -c "psql -d landcharges -c \\"delete from migration_status where register_id in #{param}\\""`
-        `vagrant ssh -c "psql -d landcharges -c \\"delete from register where register_id in #{param}\\""`
+        `vagrant ssh -c "psql -d landcharges -c 'delete from migration_status where register_id in #{param}'"`
+        `vagrant ssh -c "psql -d landcharges -c 'delete from register where register_id in #{param}'"`
     end
 end
 
