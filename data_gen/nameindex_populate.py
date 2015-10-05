@@ -1,0 +1,97 @@
+import subprocess
+from elasticsearch import Elasticsearch
+import json
+import requests
+
+# This will load ES with a set of data suitable for demonstrating various searching approaches
+# It does NOT generate representative data.
+
+elastic = Elasticsearch()
+try:
+    elastic.indices.delete(index='index')
+except:
+    pass
+
+# Create the filter
+metaphone = {
+    "settings": {
+        "analysis": {
+            "filter": {
+                "dbl_metaphone": {
+                    "type": "phonetic",
+                    "encoder": "double_metaphone"
+                }
+            },
+            "analyzer": {
+                "dbl_metaphone": {
+                    "tokenizer": "standard",
+                    "filter": "dbl_metaphone"
+                }
+            }
+        }
+    }
+}
+
+# maps some fields...
+mapping_surname = {
+    "properties": {
+        "surname": {
+            "type": "string",
+            "fields": {
+                "phonetic": {
+                    "type": "string",
+                    "analyzer": "dbl_metaphone"
+                }
+            }
+        },
+        "forenames": {
+            "type": "string",
+            "fields": {
+                "phonetic": {
+                    "type": "string",
+                    "analyzer": "dbl_metaphone"
+                }
+            }
+        }
+    }
+}
+
+resp = requests.put("http://localhost:9200/index", data=json.dumps(metaphone), headers={'Content-Type': 'application/json'})
+print("Add filters: " + str(resp.status_code))
+print(resp.text)
+
+# Test the filter
+resp = requests.post("http://localhost:9200/index/_analyze?analyzer=dbl_metaphone", data="Smith")
+print("Execute Filter: " + str(resp.status_code))
+print(resp.text)
+
+resp = requests.put("http://localhost:9200/index/_mapping/names", data=json.dumps(mapping_surname), headers={'Content-Type': 'application/json'})
+print("Add surname map: " + str(resp.status_code))
+if resp.status_code != 200:
+    print(resp.text)
+    exit(1)
+
+
+limit = 100
+for j in range(0, limit):
+    print("Beginning a 1000-iteration - {} of {}".format(j + 1, limit))
+    names = json.loads(subprocess.check_output(['ruby', 'generate.rb', 'namelist', '1000']).decode())
+    print("   Names loaded")
+    for i in range(1, 1000):
+        name = names.pop(0)
+        data = {
+            "title_number": "ZZ" + str(i),
+            "forenames": " ".join(name["forenames"]),
+            "surname": name["surname"],
+            "full_name": " ".join(name["forenames"]) + " " + name["surname"],
+            "office": "OFFICE HERE",
+            "sub_register": "B",
+            "name_type": "Private"
+        }
+        res = elastic.index(index='index', doc_type='names', body=data)
+    print("   Names indexed")
+
+elastic.indices.refresh(index="index")
+
+# Default ES storage is /var/lib/elasticsearch/elasticsearch/nodes
+# 50,000 names is approx 27Mb (quick extrapolation: 30Gb for for the full index
