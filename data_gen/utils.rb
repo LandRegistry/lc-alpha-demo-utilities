@@ -58,10 +58,11 @@ def fake_name(main_name = nil)
 
     if main_name.nil?
         forenames.push( Faker::Name.first_name )
-        if rand() < 0.75
+        rno = rand()
+        if rno < 0.95
             forenames.push( Faker::Name.first_name )
         end
-        if rand() < 0.05
+        if rno < 0.05
             forenames.push( Faker::Name.first_name )
         end
         surname = Faker::Name.last_name

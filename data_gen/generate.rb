@@ -27,6 +27,10 @@ when 'names'
     how_many.to_i.times do |n|
         data.push(generate_name)
     end
+when 'namelist'
+    how_many.to_i.times do |n|
+        data.push(fake_name)
+    end
 when 'addresses'
     how_many.to_i.times do |n|
         data.push(fake_address)

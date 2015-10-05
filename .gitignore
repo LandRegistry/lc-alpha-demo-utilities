@@ -55,3 +55,5 @@ docs/_build/
 
 # PyBuilder
 target/
+data_gen/gen
+data_gen_old/
