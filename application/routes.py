@@ -5,11 +5,32 @@ import jsonpickle
 import json
 import requests
 import datetime
+from elasticsearch import Elasticsearch
 
 
 @app.route('/', methods=["GET"])
 def index():
     return render_template('index.html')
+
+
+@app.route('/testsearch', methods=['GET'])
+def search():
+    return render_template('search_tests.html')
+
+
+@app.route('/testresult', methods=['POST'])
+def search_tests():
+    elastic = Elasticsearch()
+    params = {
+        'min_score': 0.4,
+        'query': {
+            'match': {
+                'text': request.form['search']
+            }
+        }
+    }
+    result = elastic.search(index='tests', doc_type='step', body=params, size=100)
+    return render_template('test_results.html', data=result)
 
 
 @app.route('/migration_dashboard', methods=['GET'])

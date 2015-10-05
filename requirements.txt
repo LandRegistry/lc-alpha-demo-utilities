@@ -4,4 +4,4 @@ markupsafe
 requests
 gunicorn
 jsonpickle
-
+elasticsearch
