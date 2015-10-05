@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>P334 Test Searchamathing</title>
+    {% include 'includes/ext_references.html' %}
+</head>
+<body>
+    <div class="container">
+        {% if data.hits.total == 0 %}
+        <h1>No Results</h1>
+        {% else %}
+        <h1>{{data.hits.total}} results found</h1>
+        <table class="table">
+            <thead><tr>
+                <th>File</th>
+                <th>Line</th>
+                <th>Text</th>
+                <th>Relevance</th>
+            </tr></thead>
+            <tbody>
+                {% for hit in data.hits.hits %}
+                <tr>
+                    <td>{{hit._source.filename}}</td>
+                    <td>{{hit._source.line}}</td>
+                    <td>{{hit._source.text}}</td>
+                    <td>{{hit._score}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</body>
+</html>
