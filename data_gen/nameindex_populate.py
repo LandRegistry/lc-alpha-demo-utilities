@@ -71,16 +71,30 @@ if resp.status_code != 200:
     print(resp.text)
     exit(1)
 
-
 limit = 100
+iteration_size = 10000
+
+elastic_id = 1
 for j in range(0, limit):
-    print("Beginning a 1000-iteration - {} of {}".format(j + 1, limit))
-    names = json.loads(subprocess.check_output(['ruby', 'generate.rb', 'namelist', '1000']).decode())
+    print("Beginning a {}-iteration - {} of {}".format(iteration_size, j + 1, limit))
+    names = json.loads(subprocess.check_output(['ruby', 'generate.rb', 'namelist', str(iteration_size)]).decode())
     print("   Names loaded")
-    for i in range(1, 1000):
+
+    bulk = []
+    for i in range(0, iteration_size):
         name = names.pop(0)
+
+        operation = {
+            "index": {
+                "_index": "index",
+                "_type": "names",
+                "_id": str(elastic_id)
+            }
+        }
+        elastic_id += 1
+
         data = {
-            "title_number": "ZZ" + str(i),
+            "title_number": "ZZ" + str(elastic_id),
             "forenames": " ".join(name["forenames"]),
             "surname": name["surname"],
             "full_name": " ".join(name["forenames"]) + " " + name["surname"],
@@ -88,10 +102,16 @@ for j in range(0, limit):
             "sub_register": "B",
             "name_type": "Private"
         }
-        res = elastic.index(index='index', doc_type='names', body=data)
+        bulk.append(operation)
+        bulk.append(data)
+        #res = elastic.index(index='index', doc_type='names', body=data)
+    print('   Bulk indexing')
+    res = elastic.bulk(index='index', body=bulk)
+
     print("   Names indexed")
 
 elastic.indices.refresh(index="index")
 
 # Default ES storage is /var/lib/elasticsearch/elasticsearch/nodes
 # 50,000 names is approx 27Mb (quick extrapolation: 30Gb for for the full index
+# 1,000,000 names is 451236Kb (440Mb) - extrapolates to 22Gb for the full index
