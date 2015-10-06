@@ -1,0 +1,12 @@
+{
+  "size": 1000000,
+  "query": {
+    "multi_match": {
+      "fields":  [ "forenames", "surname" ],
+      "query":     "john smith",
+      "fuzziness": "AUTO",
+      "prefix_length" : 1,
+      "max_expansions" : 50
+    }
+  }
+}
