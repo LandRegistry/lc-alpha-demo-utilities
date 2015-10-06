@@ -1,0 +1,11 @@
+{
+ "size": 1000000,
+  "query": {
+    "match": {
+      "surname.phonetic": {
+        "query": "Smythe",
+        "operator": "and"
+      }
+    }
+  }
+}
