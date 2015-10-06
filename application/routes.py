@@ -137,7 +137,7 @@ def residence_address():
         town = request.form['town']
         postcode = request.form['postcode']
         address = Address(address_type, name_or_number, street, town, postcode)
-        registration.addressList.append(address)
+        registration.address_list.append(address)
 
     add_address = request.form['add_address']
 
@@ -164,7 +164,7 @@ def additional_address():
     town = request.form['town']
     postcode = request.form['postcode']
     address = Address(address_type, name_or_number, street, town, postcode)
-    registration.addressList.append(address)
+    registration.address_list.append(address)
     add_address = request.form['add_address']
 
     if add_address == "yes":
@@ -199,7 +199,7 @@ def resubmit():
     registration.withheld = request.form['withheld']
 
     # loop through addresses and update values with those from the html form
-    for count, item in enumerate(registration.addressList):
+    for count, item in enumerate(registration.address_list):
         item.address_type = request.form['address_type_' + str(count + 1)]
         item.name_or_number = request.form['name_or_number_' + str(count + 1)]
         item.street = request.form['street_' + str(count + 1)]
@@ -232,61 +232,52 @@ def search_details():
     db2_reg_no_input = request.form['db2_reg_no'] if 'db2_reg_no' in request.form else ""
 
     #  Check Inputs
-    if forename_input == "" and surname_input == "" and complex_input == "" and db2_reg_no_input == "":
-        logging.info("incomplete")
-        forename = 'Missing forename'
-        surname = 'Missing surname'
-        complexname = 'Missing complex name'
-        db2_reg_no = 'Missing registration number'
-        return render_template('search_debtor.html', forename_error=forename, surname_error=surname,
-                               complex_error=complexname, db2_reg_no_error=db2_reg_no, database=database_input)
-    elif forename_input == "" and complex_input == "" and db2_reg_no_input == "":
-        forename = 'Missing forename'
-        return render_template('search_debtor.html', forename_error=forename, surname=surname_input,
-                               database=database_input)
-    elif surname_input == "" and complex_input == "" and db2_reg_no_input == "":
-        surname = 'Missing surname'
-        return render_template('search_debtor.html', surname_error=surname, forename=forename_input,
-                               database=database_input)
+    forename, surname, complexname, db2_reg_no, error = check_inputs(forename_input, surname_input, complex_input,
+                                                                     db2_reg_no_input)
+    if error is True:
+        return render_template('search_debtor.html', forename_error=forename, forename=forename_input,
+                               surname_error=surname, surname=surname_input,
+                               complex_error=complexname, complexname=complex_input,
+                               db2_reg_no_error=db2_reg_no, database=database_input)
+
+    # submit search
+    get_url = ""
+    post_url = ""
+    if database_input == 'reg':
+        if db2_reg_no_input != "":
+            get_url = app.config['B2B_SEARCH_REG_URL'] + '/migrated_registration/' + db2_reg_no_input
+        else:
+            post_url = app.config['B2B_SEARCH_REG_URL'] + '/search'
     else:
-        # submit search
-        get_url = ""
-        post_url = ""
-        if database_input == 'reg':
-            if db2_reg_no_input != "":
-                get_url = app.config['B2B_SEARCH_REG_URL'] + '/migrated_registration/' + db2_reg_no_input
-            else:
-                post_url = app.config['B2B_SEARCH_REG_URL'] + '/search'
+        post_url = app.config['B2B_SEARCH_WORK_URL'] + '/search_by_name'
+        db2_reg_no_input = ''
+
+    if complex_input == "":
+        data = {
+            'forenames': forename_input,
+            'surname': surname_input
+        }
+    else:
+        data = {
+            'forename': ' ',
+            'surname': complex_input
+        }
+
+    headers = {'Content-Type': 'application/json'}
+
+    if post_url != "":
+        response = requests.post(post_url, data=json.dumps(data), headers=headers)
+    else:
+        response = requests.get(get_url)
+
+    name_result = ""
+    reg_no_result = ""
+
+    if response.status_code != 404:
+        if db2_reg_no_input != "":
+            reg_no_result = response.json()
         else:
-            post_url = app.config['B2B_SEARCH_WORK_URL'] + '/search_by_name'
-            db2_reg_no_input = ''
-
-        if complex_input == "":
-            data = {
-                'forenames': forename_input,
-                'surname': surname_input
-            }
-        else:
-            data = {
-                'forename': ' ',
-                'surname': complex_input
-            }
-
-        headers = {'Content-Type': 'application/json'}
-
-        if post_url != "":
-            response = requests.post(post_url, data=json.dumps(data), headers=headers)
-        else:
-            response = requests.get(get_url)
-
-        name_result = ""
-        reg_no_result = ""
-
-        if response.status_code != 404:
-            if db2_reg_no_input != "":
-                reg_no_result = response.json()
-            else:
-                name_result = response.json()
+            name_result = response.json()
 
     return render_template('search_debtor.html', name_result=name_result, reg_no_result=reg_no_result,
                            forename=forename_input, surname=surname_input, complexname=complex_input,
@@ -308,7 +299,7 @@ def format_json(registration):
     residence_addresses = []
     business_address = []
     investment_addresses = []
-    for address in registration.addressList:
+    for address in registration.address_list:
 
         dic = {'address_lines': [address.name_or_number + " " + address.street, address.town],
                'postcode': address.postcode}
@@ -365,7 +356,7 @@ class BankruptcyRegnDetails(object):
         self.occupation = occupation
         self.trading_name = trading
         self.withheld = withheld
-        self.addressList = address_list
+        self.address_list = address_list
 
 
 class Address(object):
@@ -383,3 +374,31 @@ def is_date_valid(date_text):
         return True
     except ValueError:
         return False
+
+
+def check_inputs(forename_input, surname_input, complex_input, db2_reg_no_input):
+    if forename_input == "" and surname_input == "" and complex_input == "" and db2_reg_no_input == "":
+        logging.info("incomplete")
+        forename = 'Missing forename'
+        surname = 'Missing surname'
+        complexname = 'Missing complex name'
+        db2_reg_no = 'Missing registration number'
+        return forename, surname, complexname, db2_reg_no, True
+    elif forename_input == "" and complex_input == "" and db2_reg_no_input == "":
+        forename = 'Missing forename'
+        surname = ' '
+        complexname = ' '
+        db2_reg_no = ' '
+        return forename, surname, complexname, db2_reg_no, True
+    elif surname_input == "" and complex_input == "" and db2_reg_no_input == "":
+        forename = ' '
+        surname = 'Missing surname '
+        complexname = ' '
+        db2_reg_no = ' '
+        return forename, surname, complexname, db2_reg_no, True
+    else:
+        forename = ' '
+        surname = ' '
+        complexname = ' '
+        db2_reg_no = ' '
+        return forename, surname, complexname, db2_reg_no, False
