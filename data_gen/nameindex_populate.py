@@ -8,6 +8,7 @@ import requests
 
 elastic = Elasticsearch()
 try:
+    pass
     elastic.indices.delete(index='index')
 except:
     pass
@@ -71,7 +72,7 @@ if resp.status_code != 200:
     print(resp.text)
     exit(1)
 
-limit = 100
+limit = 200# 5000
 iteration_size = 10000
 
 elastic_id = 1
@@ -115,3 +116,4 @@ elastic.indices.refresh(index="index")
 # Default ES storage is /var/lib/elasticsearch/elasticsearch/nodes
 # 50,000 names is approx 27Mb (quick extrapolation: 30Gb for for the full index
 # 1,000,000 names is 451236Kb (440Mb) - extrapolates to 22Gb for the full index
+# 50,000,000 names is 4636388Kb (4.42Gb) - WTF!?
