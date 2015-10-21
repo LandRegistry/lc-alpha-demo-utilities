@@ -135,8 +135,9 @@ def residence_address():
         name_or_number = request.form['name_or_number']
         street = request.form['street']
         town = request.form['town']
+        county = request.form['county']
         postcode = request.form['postcode']
-        address = Address(address_type, name_or_number, street, town, postcode)
+        address = Address(address_type, name_or_number, street, town, county, postcode)
         registration.address_list.append(address)
 
     add_address = request.form['add_address']
@@ -162,8 +163,9 @@ def additional_address():
     name_or_number = request.form['name_or_number']
     street = request.form['street']
     town = request.form['town']
+    county = request.form['county']
     postcode = request.form['postcode']
-    address = Address(address_type, name_or_number, street, town, postcode)
+    address = Address(address_type, name_or_number, street, town, county, postcode)
     registration.address_list.append(address)
     add_address = request.form['add_address']
 
@@ -204,6 +206,7 @@ def resubmit():
         item.name_or_number = request.form['name_or_number_' + str(count + 1)]
         item.street = request.form['street_' + str(count + 1)]
         item.town = request.form['town_' + str(count + 1)]
+        item.county = request.form['county_' + str(count + 1)]
         item.postcode = request.form['postcode_' + str(count + 1)]
 
     status = submit_registration(format_json(registration))
@@ -302,7 +305,7 @@ def format_json(registration):
     for address in registration.address_list:
 
         dic = {'address_lines': [address.name_or_number + " " + address.street, address.town],
-               'postcode': address.postcode}
+               'county': address.county, 'postcode': address.postcode}
 
         if address.address_type == 'residence':
             residence_addresses.append(dic)
@@ -313,7 +316,9 @@ def format_json(registration):
 
     names_dic = {'forenames': [registration.forenames], 'surname': registration.surname}
     alt_name = {'forenames': [registration.alt_forename], 'surname': registration.alt_surname}
-    alt_names_dic = [alt_name]
+    debtor_names_array = [names_dic]
+    if len(alt_name['forenames'][0]) > 0 or alt_name['surname'] != '':
+        debtor_names_array.append(alt_name)
 
     if registration.withheld == 'false':
         withheld = False
@@ -323,9 +328,8 @@ def format_json(registration):
     data = {'key_number': registration.key_number,
             'application_type': registration.type,
             'application_ref': registration.application_ref,
-            'date': registration.date,
-            'debtor_name': names_dic,
-            'debtor_alternative_name': alt_names_dic,
+            'application_date': registration.date,
+            'debtor_names': debtor_names_array,
             'gender': registration.gender,
             'occupation': registration.occupation,
             'trading_name': registration.trading_name,
@@ -360,11 +364,12 @@ class BankruptcyRegnDetails(object):
 
 
 class Address(object):
-    def __init__(self, address_type, name_or_number, street, town, postcode):
+    def __init__(self, address_type, name_or_number, street, town, county, postcode):
         self.address_type = address_type
         self.name_or_number = name_or_number
         self.street = street
         self.town = town
+        self.county = county
         self.postcode = postcode
 
 
