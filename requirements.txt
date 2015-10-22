@@ -5,3 +5,4 @@ requests
 gunicorn
 jsonpickle
 elasticsearch
+pillow

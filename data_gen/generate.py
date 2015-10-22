@@ -6,16 +6,17 @@ import subprocess
 import requests
 import random
 import calendar
+import string
 
 
-NUM_KEYHOLDERS = 4
-NUM_PABS = 0
-NUM_PABS_REGISTERED = 0
-NUM_WOBS = 0
-NUM_WOBS_REGISTERED = 0
+NUM_KEYHOLDERS = 10
+NUM_PABS = 4
+NUM_PABS_REGISTERED = 4
+NUM_WOBS = 1
+NUM_WOBS_REGISTERED = 1
 NUM_CANCELLATIONS = 0
 NUM_AMENDMENTS = 0
-NUM_SEARCHES = 4
+NUM_SEARCHES = 10
 
 
 def generate_full_search(data):
@@ -301,10 +302,18 @@ def execute(command):
     return out.decode('utf-8')
 
 
+def generate_ref():
+    ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
+
+
 def generate_keyholders():
     for i in range(0, NUM_KEYHOLDERS):
+        if i == 0:
+            num = 1234567 # at least one should be easy to remember
+        else:
+            num = random.randrange(1000000, 9999999)
         data = {
-            "number": random.randrange(1000000, 9999999),
+            "number": num,
             "account_code": "C",
             "name": [conveyancers.pop(0)],
             "address": addresses.pop(0),
@@ -410,6 +419,7 @@ def create_registration(reg_type, max_year=2015):
 
 def generate_pabs():
     to_register = NUM_PABS_REGISTERED
+    result = []
     for i in range(0, NUM_PABS):
         data = create_registration("PA(B)")
         file = generate_pab_image(data)
@@ -419,13 +429,16 @@ def generate_pabs():
 
         if to_register > 0:
             register(data)
+            result.append(data)
             to_register -= 1
         else:
             add_to_worklist(data, "bank_regn")
+    return result
 
 
 def generate_wobs():
     to_register = NUM_WOBS_REGISTERED
+    result = []
     for i in range(0, NUM_WOBS):
         data = create_registration("WO(B)")
         file = generate_wob_image(data)
@@ -435,9 +448,11 @@ def generate_wobs():
 
         if to_register > 0:
             register(data)
+            result.append(data)
             to_register -= 1
         else:
             add_to_worklist(data, "bank_regn")
+    return result
 
 
 def generate_cancellations():
@@ -540,7 +555,7 @@ def generate_searches():
             "cust_name": " ".join(cust["name"]),
             "cust_addr": address_string(cust["address"]),
             "date": random_date(datetime(2015, 1, 1)).strftime('%Y-%m-%d'),
-            "reference": "...",
+            "reference": generate_ref,
             "search": []
         }
 
@@ -557,9 +572,15 @@ def generate_searches():
         else:
             data['application_type'] = 'Search'
 
+        # TODO Have a chance to include a name or alias from records
         num = random.randrange(1, 7)
         for j in range(1, num):
-            name = names.pop(0)
+            if random.randrange(0,3) == 0:
+                reg = random.choice(records)
+                namelist = [reg['debtor_name']] + reg['debtor_alternative_name']
+                name = random.choice(namelist)
+            else:
+                name = names.pop(0)
             search = {
                 "forename": " ".join(name[0]["forenames"]),
                 "surname": name[0]['surname']
@@ -588,8 +609,8 @@ conveyancers = json.loads(execute(['ruby', 'generate.rb', 'conveyancers', str(NU
 key_holders = []
 
 generate_keyholders()
-generate_pabs()
-generate_wobs()
+records = generate_pabs()
+records += generate_wobs()
 generate_cancellations()
 generate_amendments()
 generate_searches()
