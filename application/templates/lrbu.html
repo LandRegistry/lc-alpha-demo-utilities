@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bankruptcy search</title>
+    {% include 'includes/ext_references.html' %}
+</head>
+<body>
+{% include 'includes/vertical_nav.html' %}
+<div id="main" class="container">
+    <div class="container">
+        <div class="row">
+            <h2>LRBU</h2>
+
+            <form action="/lrbu_retrieve" method="GET">
+                <div class="row col-sm-12" style="padding-bottom:50px">
+                    <div style="height:50px">
+                        <br/>
+                        {% if error is defined %}
+                            <p style="color:red">{{error}}</p>
+                        {% elif response_message is defined %}
+                            <p>{{response_message}}</p>
+                        {% endif %}
+                        <br/>
+                    </div>
+                    <div class="col-sm-4" >
+                        <div class="form-group">
+                            <label for="start_date">Date to search</label>
+                            <input class="form-control" style="width:200px" type="text" id="start_date"
+                                   placeholder="yyyy-mm-dd" name="start_date" value="{{start_date}}">
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-8" style="padding-top:60px" >
+                        <div class="row col-sm-12" style="margin-bottom:5px">
+                            <input class="btn btn-primary" name="submit" id="retrieve" type="submit" style="width:100px" value="Retrieve">
+                        </div>
+                    </div>
+
+                </div>
+
+                <br/>
+
+
+            </form>
+        </div>
+        {% if results is defined %}
+        {% if results|length > 0 %}
+        <div class="row">
+            <h2>Bankruptcy details for requested period</h2><br/>
+            <table id="resultsTable" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Debtor Name</th>
+                    <th>Proprietor</th>
+                    <th>Title Number</th>
+                    <th>Address</th>
+                </tr>
+                </thead>
+                {% for n in results['results'] %}
+                <tbody>
+                <tr>
+                    <td>{{n['debtor_name']}}</td>
+                    <td>{{n['bankrupt']}}</td>
+                    <td>{{n['title_number']}}</td>
+                    <td>{{n['address']}}</td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+        <form action="/lrbu_dashboard" method="GET">
+            <br/>
+            <input class="btn btn-primary pull-right" id="reset" type="submit" value="reset">
+        </form>
+        {% endif %}
+
+
+    </div>
+</div>
+
+
+</body>
+</html>

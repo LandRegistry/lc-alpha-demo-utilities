@@ -93,6 +93,32 @@ def migrate():
                                error="Incorrect date format, should be YYYY-MM-DD")
 
 
+@app.route('/lrbu_dashboard', methods=['GET'])
+def lrbu_dashboard():
+    logging.info("lrbu")
+
+    return render_template('lrbu.html')
+
+
+@app.route('/lrbu_retrieve', methods=['GET'])
+def lrbu_retrieve():
+    logging.info("lrbu retrieve")
+    # need to call legacy-db but mock response for now until this is discussed with Mina
+    data = {"results": [{"debtor_name": "Harry Smith",
+                         "bankrupt": "Harry Smith",
+                         "title_number": "DN100",
+                         "address": "131 New Road, Plymouth, PL1 1AA"},
+                        {"debtor_name": "Harry Smith",
+                         "bankrupt": "Harry John Smith",
+                         "title_number": "DN200",
+                         "address": "12 Old Road, Saltash, PL22 2AA"}
+                        ]
+            }
+    print(data['results'][0])
+
+    return render_template('lrbu.html', results=data)
+
+
 @app.route('/start_registration', methods=['GET'])
 def start_registration():
     logging.info("registration")
