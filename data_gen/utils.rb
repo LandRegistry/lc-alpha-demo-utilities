@@ -52,6 +52,10 @@ def fake_key_number
     rand(1000000..9999999).to_s
 end
 
+def fake_title_number
+    "ZZ" + rand(1000..999999).to_s
+end
+
 def fake_name(main_name = nil)
     forenames = []
     surname = ""
@@ -99,10 +103,18 @@ def random_letter
     (rand(122-97) + 97).chr.upcase
 end
 
-def fake_address
-    lines = []
+def fake_street_line
     street = Faker::Address.street_address
     street.sub!(/(\d\d)\d\d/, '\1')
+    street
+end
+
+def fake_address
+    lines = []
+    street = fake_street_line
+
+    #  Faker::Address.street_address
+    #street.sub!(/(\d\d)\d\d/, '\1')
     lines.push(street)
     lines.push( Faker::Address.city )
     #if rand() < 0.5

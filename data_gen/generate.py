@@ -10,13 +10,20 @@ import string
 
 
 NUM_KEYHOLDERS = 10
-NUM_PABS = 4
-NUM_PABS_REGISTERED = 4
-NUM_WOBS = 1
-NUM_WOBS_REGISTERED = 1
-NUM_CANCELLATIONS = 0
-NUM_AMENDMENTS = 0
-NUM_SEARCHES = 10
+NUM_PABS = 25
+NUM_INS_PABS = 10
+NUM_PABS_REGISTERED = 10
+NUM_WOBS = 25
+NUM_WOBS_REGISTERED = 10
+NUM_INS_WOBS = 10
+NUM_CANCELLATIONS = 6
+NUM_AMENDMENTS = 6
+NUM_SEARCHES = 6
+
+work_items = ""
+registrations = ""
+documents = ""
+keyholders_string = ""
 
 
 def generate_full_search(data):
@@ -307,6 +314,7 @@ def generate_ref():
 
 
 def generate_keyholders():
+    global keyholders_string
     for i in range(0, NUM_KEYHOLDERS):
         if i == 0:
             num = 1234567 # at least one should be easy to remember
@@ -319,14 +327,22 @@ def generate_keyholders():
             "address": addresses.pop(0),
         }
         key_holders.append(data)
+        keyholders_string += json.dumps(data) + ',\n'
         requests.post("http://localhost:5007/keyholder", data=json.dumps(data),
                       headers={'Content-Type': 'application/json'})
 
 
 def create_document(images):
+
     response = requests.post("http://localhost:5014/document", data="{}", headers={'Content-Type': 'application/json'})
     data = json.loads(response.text)
     document_id = data['id']
+
+    document_data = {
+        'id': document_id,
+        'metadata': {},
+        'image_paths': []
+    }
 
     i = 0
     for image in images:
@@ -335,19 +351,24 @@ def create_document(images):
         resp = requests.post("http://localhost:5014/document/" + str(document_id) + "/image",
                              data=file, headers={'Content-Type': 'image/jpeg'})
         print('Upload image: {} - {}'.format(image, str(resp.status_code)))
+
     return document_id
 
 
 def register(data):
+    global registrations
     data['legal_body_ref']
     resp = requests.post("http://localhost:5004/registration", data=json.dumps(data),
                          headers={'Content-Type': 'application/json'})
     new_data = json.loads(resp.text)
+    registrations += json.dumps(data) + ',\n'
+
     print('Create registration: ' + str(resp.status_code))
     return new_data["new_registrations"][0]
 
 
 def add_to_worklist(data, work_type):
+    global work_items
     work_data = {
         "application_type": data["application_type"],
         "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
@@ -356,6 +377,7 @@ def add_to_worklist(data, work_type):
     }
     resp = requests.post("http://localhost:5006/workitem", data=json.dumps(work_data),
                          headers={'Content-Type': 'application/json'})
+    work_items += json.dumps(work_data) + ',\n'
     print('Create workitem: ' + str(resp.status_code))
 
 
@@ -419,39 +441,59 @@ def create_registration(reg_type, max_year=2015):
 
 def generate_pabs():
     to_register = NUM_PABS_REGISTERED
+    ins_counter = 0
     result = []
     for i in range(0, NUM_PABS):
         data = create_registration("PA(B)")
-        file = generate_pab_image(data)
-        data['legal_body'] += " County Court"
-        doc_id = create_document([file])
-        data['document_id'] = doc_id
 
-        if to_register > 0:
+        if ins_counter > NUM_INS_PABS:
+            file = generate_pab_image(data)
+            data['legal_body'] += " County Court"
+            doc_id = create_document([file])
+            data['document_id'] = doc_id
+
+            if to_register > 0:
+                register(data)
+                result.append(data)
+                to_register -= 1
+            else:
+                add_to_worklist(data, "bank_regn")
+        else:
+            print(data['application_type'])
+            data['legal_body'] = 'Insolvency Service'
+            data['document_id'] = None
             register(data)
             result.append(data)
-            to_register -= 1
-        else:
-            add_to_worklist(data, "bank_regn")
+        ins_counter += 1
     return result
 
 
 def generate_wobs():
     to_register = NUM_WOBS_REGISTERED
+    ins_counter = 0
     result = []
     for i in range(0, NUM_WOBS):
         data = create_registration("WO(B)")
-        file = generate_wob_image(data)
-        data['legal_body'] += " County Court"
-        doc_id = create_document([file])
-        data['document_id'] = doc_id
 
-        if to_register > 0:
+        if ins_counter > NUM_INS_WOBS:
+            file = generate_wob_image(data)
+            data['legal_body'] += " County Court"
+            doc_id = create_document([file])
+            data['document_id'] = doc_id
+
+            if to_register > 0:
+                register(data)
+                result.append(data)
+                to_register -= 1
+            else:
+                add_to_worklist(data, "bank_regn")
+        else:
+            print(data['application_type'])
+            data['legal_body'] = 'Insolvency Service'
+            data['document_id'] = None
             register(data)
             result.append(data)
-            to_register -= 1
-        else:
-            add_to_worklist(data, "bank_regn")
+        ins_counter += 1
     return result
 
 
@@ -578,7 +620,7 @@ def generate_searches():
             if random.randrange(0,3) == 0:
                 reg = random.choice(records)
                 namelist = [reg['debtor_name']] + reg['debtor_alternative_name']
-                name = random.choice(namelist)
+                name = [random.choice(namelist)]
             else:
                 name = names.pop(0)
             search = {
@@ -614,3 +656,18 @@ records += generate_wobs()
 generate_cancellations()
 generate_amendments()
 generate_searches()
+
+wfile = open('workitems.txt', 'w')
+rfile = open('registrations.txt', 'w')
+kfile = open('keyholders.txt', 'w')
+wfile.write(work_items)
+rfile.write(registrations)
+kfile.write(keyholders_string)
+
+
+# f = open('myfile','w')
+# f.write('hi there\n') # python will convert \n to os.linesep
+# f.close()work_items = ""
+# registrations = ""
+# documents = ""
+# keyholders_string = ""

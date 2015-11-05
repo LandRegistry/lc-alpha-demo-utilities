@@ -95,7 +95,7 @@ c.drawString(22 * mm, 99 * mm, "Practice Guide 63")
 c.drawString(81 * mm, 99 * mm, "5.")
 c.drawString(88 * mm, 99 * mm, "Further information about procedures in the Land Charges")
 c.drawString(88 * mm, 94 * mm, "Department are contained in \"Practice Guide 63\"")
-c.drawString(88 * mm, 89 * mm, "obtainable on request from the address shown overlead,")
+c.drawString(88 * mm, 89 * mm, "obtainable on request from the address shown overleaf,")
 c.drawString(88 * mm, 84 * mm, "or from the Land Registry webside www.landregistry.gov.uk")
 
 
