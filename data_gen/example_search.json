@@ -9,3 +9,29 @@
     }
   }
 }
+
+{
+  "size": 1000000,
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "match": {
+            "forenames.phonetic": {
+              "query": "Tracey",
+              "operator": "and"
+            }
+          }
+        },
+        {
+          "match": {
+            "surname.phonetic": {
+              "query": "Steuber",
+              "operator": "and"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
