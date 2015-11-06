@@ -7,6 +7,7 @@ import requests
 import random
 import calendar
 import string
+import shutil
 
 
 NUM_KEYHOLDERS = 10
@@ -399,7 +400,7 @@ def random_date(after=None, max_year=2015):
     return datetime(year, month, day)
 
 
-def create_registration(reg_type, max_year=2015):
+def create_registration(reg_type, max_year=2015, keynumber=None):
     num_res = random.randrange(1, 7) - 3
     if num_res < 1:
         num_res = 1
@@ -415,10 +416,15 @@ def create_registration(reg_type, max_year=2015):
     if random.randrange(0, 2) == 0:
         alias.append(name_object[2])
 
+    if keynumber is None:
+        key_no = str(random.choice(key_holders)["number"])
+    else:
+        key_no = str(keynumber)
+
     county = residence[0]['county']
     date = random_date(None, max_year)
     data = {
-        "key_number": str(random.choice(key_holders)["number"]), "application_type": reg_type,
+        "key_number": key_no, "application_type": reg_type,
         "application_ref": "RF" + str(random.randrange(100000, 999999)),
         "date": date.strftime('%Y-%m-%d'), "occupation": occupations.pop(0),
         "date_of_birth": None, "residence_withheld": False, "residence": residence,
@@ -497,6 +503,44 @@ def generate_wobs():
     return result
 
 
+def create_cancellaton_image_from_regn(regn, reg_no):
+    name = names.pop(0)[0]
+
+    kh = {
+        "address": {
+            "address_lines": [
+                "49 Camille Circles",
+                "Port Eulah"
+            ],
+            "county": "",
+            "postcode": "PP39 6BY"
+        },
+        "name": ["S & H Legal Group"],
+        "number": "1234567",
+        "account_code": "C"
+    }
+
+    cancel_data = {
+        "forenames": " ".join(regn["debtor_name"]["forenames"]),
+        "surname": regn['debtor_name']['surname'],
+        "reg_no": reg_no,
+        "class": "wob",
+        "date_of_reg": regn["date"],
+        "key_no": kh["number"],
+        "conv_name": kh["name"],
+        "conv_addr": kh["address"],
+        "judge": name["forenames"][0] + " " + name['surname'],
+        "ref": regn["legal_body_ref"],
+        "court": regn["legal_body"],
+        "applicant": company_names.pop(0),
+        "appl_address": addresses.pop(0)
+    }
+    images = [None, None]
+    images[0] = generate_cancel_image(cancel_data)
+    images[1] = generate_cancel_evidence_image(cancel_data)
+    return images
+
+
 def generate_cancellations():
     # Generate a PAB or WOB and capture it's registration date and number and other details
     # Create a cancellation image and an evidence image
@@ -535,6 +579,46 @@ def generate_cancellations():
             "application_type": "WO(B)",
             "document_id": canc_doc,
         }, "cancel")
+
+
+def create_amendment_image_from_regn(regn, reg_no):
+    kh = {
+        "address": {
+            "address_lines": [
+                "49 Camille Circles",
+                "Port Eulah"
+            ],
+            "county": "",
+            "postcode": "PP39 6BY"
+        },
+        "name": ["S & H Legal Group"],
+        "number": "1234567",
+        "account_code": "C"
+    }
+
+    # must have existing addresses...
+    alias = []
+    for name in regn["debtor_alternative_name"]:
+        alias.append(" ".join(name["forenames"]) + " " + name["surname"])
+
+    amend_data = {
+        "wob_no": str(reg_no),
+        "pab_no": 'N/A',
+        "action": "Address added/amended",
+        "exist_addresses": regn["residence"],
+        "addl_address": addresses.pop(0),
+        "forename": " ".join(regn["debtor_name"]["forenames"]),
+        "surname": regn["debtor_name"]["surname"],
+        "aliases": alias,
+        "occupation": regn["occupation"],
+        "trading": regn["trading_name"],
+        "key_no": kh["number"],
+        "court": regn["legal_body"],
+        "reference": regn["legal_body_ref"],
+        "reg_date": regn["date"]  # .strftime('%Y-%m-%d')
+    }
+    images = generate_amendment_image(amend_data)
+    return images
 
 
 def generate_amendments():
@@ -587,6 +671,39 @@ def generate_amendments():
             "application_type": "WO(B)",
             "document_id": amend_doc,
         }, "amend")
+
+
+def create_banks_search(regn):
+    cust = {
+        "address": {
+            "address_lines": [
+                "49 Camille Circles",
+                "Port Eulah"
+            ],
+            "county": "",
+            "postcode": "PP39 6BY"
+        },
+        "name": ["S & H Legal Group"],
+        "number": "1234567",
+        "account_code": "C"
+    }
+    data = {
+        "key_number": cust["number"],
+        "cust_name": " ".join(cust["name"]),
+        "cust_addr": address_string(cust["address"]),
+        "date": random_date(datetime(2015, 1, 1)).strftime('%Y-%m-%d'),
+        "reference": generate_ref,
+        "search": [],
+        "application_type": 'Search'
+    }
+
+    name = regn['debtor_name']
+    search = {
+        "forename": " ".join(name["forenames"]),
+        "surname": name['surname']
+    }
+    data['search'].append(search)
+    return generate_search_image(data)
 
 
 def generate_searches():
@@ -650,19 +767,36 @@ counties = json.loads(execute(['ruby', 'generate.rb', 'counties', '100']))
 conveyancers = json.loads(execute(['ruby', 'generate.rb', 'conveyancers', str(NUM_KEYHOLDERS)]))
 key_holders = []
 
-generate_keyholders()
-records = generate_pabs()
-records += generate_wobs()
-generate_cancellations()
-generate_amendments()
-generate_searches()
+if False:
+    generate_keyholders()
+    records = generate_pabs()
+    records += generate_wobs()
+    generate_cancellations()
+    generate_amendments()
+    generate_searches()
 
-wfile = open('workitems.txt', 'w')
-rfile = open('registrations.txt', 'w')
-kfile = open('keyholders.txt', 'w')
-wfile.write(work_items)
-rfile.write(registrations)
-kfile.write(keyholders_string)
+    wfile = open('workitems.txt', 'w')
+    rfile = open('registrations.txt', 'w')
+    kfile = open('keyholders.txt', 'w')
+    wfile.write(work_items)
+    rfile.write(registrations)
+    kfile.write(keyholders_string)
+else:
+    demofile = open('demonstrator/demonstrator.txt', 'w')
+    reg = create_registration("WO(B)", 2015, 1234567)
+    demofile.write(json.dumps(reg))
+
+    cancellation_images = create_cancellaton_image_from_regn(reg, 50111)
+    amend_image = create_amendment_image_from_regn(reg, 50111)
+    search_image = create_banks_search(reg)
+
+    images = (cancellation_images + amend_image)
+    images.append(search_image)
+    print(images)
+    for image in images:
+        base = os.path.basename(image)
+        shutil.copy(image, 'demonstrator/' + base)
+
 
 
 # f = open('myfile','w')

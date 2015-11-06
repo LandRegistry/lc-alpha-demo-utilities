@@ -1,0 +1,52 @@
+{
+  "data": {
+    "title_number": "LK31302",
+    "tenure": "Freehold",
+    "dlr": "Peytonland Office",
+    "groups": [
+      {
+        "category": "OWNERSHIP",
+        "entries": [
+          {
+            "entry_id": "2014-01-01 18:01:00.987654",
+            "language": "ENG",
+            "entry_date": "2014-01-01",
+            "role_code": "RPRO",
+            "sequence_number": 1,
+            "sub_register": "B",
+            "infills": [
+              {
+                "proprietors": [
+                  {
+                    "name": {
+                      "name_category": "PRIVATE INDIVIDUAL",
+                      "forename": "",
+                      "surname": ""
+                    },
+                    "addresses": [
+                      {
+                        "town": "",
+                        "house_no": "",
+                        "street_name": "",
+                        "address_type": "UK",
+                        "local_name": "",
+                        "address_string": "",
+                        "postal_county": "",
+                        "postcode": ""
+                      }
+                    ]
+                  }
+                ],
+                "type": "Proprietor"
+              }
+            ],
+            "status": "Current",
+            "template_text": "PROPRIETOR => *RP*",
+            "full_text": "",
+            "category": "OWNERSHIP"
+          }
+        ]
+      }
+    ]
+  }
+}
