@@ -70,8 +70,10 @@ def create_register()
             "sub_register" => "C",
             "role_code" => "CCHR",
             "category" => "CHARGE",
+            "status" => "Current",
             "infills" => [ {
-                "proprietors" => [ prop ]
+                "proprietors" => [ prop ],
+                "type" => "Charge Proprietor"
             } ]
         }
 
@@ -84,9 +86,11 @@ def create_register()
         entry = {
             "sub_register" => "C",
             "role_code" => "CCHR",
+            "status" => "Current",
             "category" => "CHARGE",
             "infills" => [ {
-                "proprietors" => [ prop ]
+                "proprietors" => [ prop ],
+                "type" => "Charge Proprietor"
             } ]
         }
 
@@ -99,9 +103,9 @@ def create_register()
 end
 
 
-1000.times do |n|
+15.times do |n|
     reg = create_register()
-    File.open("#{reg['data']['title_number']}.json", "w") do |file|
+    File.open("fake_registers/#{reg['data']['title_number']}.json", "w") do |file|
         puts "#{reg['data']['title_number']}.json created"
         file.write(JSON.pretty_generate(reg))
     end
