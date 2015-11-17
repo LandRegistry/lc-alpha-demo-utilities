@@ -17,7 +17,7 @@ document_data = {
 }
 
 i = 0
-for image in ['Amend.jpeg', 'AmendCont.jpeg']:
+for image in ['Amend.jpeg']:
     i += 1
     file = open(image, 'rb')
     resp = requests.post("http://localhost:5014/document/" + str(document_id) + "/image",

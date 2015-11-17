@@ -38,22 +38,6 @@
         "East Olen"
       ],
       "postcode": "CW80 2MV"
-    },
-    {
-      "county": "Cheshire East",
-      "address_lines": [
-        "759 Abbott Bridge",
-        "Houstonhaven"
-      ],
-      "postcode": "IE54 7UL"
-    },
-    {
-      "county": "Tyne and Wear",
-      "address_lines": [
-        "385 Enos Skyway",
-        "Pricefort"
-      ],
-      "postcode": "UT84 2YN"
     }
   ],
   "date_of_birth": "1952-05-29",
