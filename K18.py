@@ -52,7 +52,7 @@ c.drawString(2.1 * cm, 22.9 * cm, ": Particulars of Charge")
 c.line(14.9 * cm, 5.9 * cm, 14.9 * cm, 23.9 * cm)  # start of period column
 c.drawString(16 * cm, 23.3 * cm, "PERIOD")
 c.line(18.1 * cm, 5.9 * cm, 18.1 * cm, 23.9 * cm)  # Line between period and fees
-c.drawString(18.9 * cm, 23.3 * cm, "Fees")
+c.drawString(18.9 * cm, 23.4 * cm, "Fees")
 c.drawString(19.1 * cm, 23 * cm, "£")
 
 c.line(0.6 * cm, 5.9 * cm, 20.2 * cm, 5.9 * cm)  # line above applicants ref and key number
@@ -147,9 +147,9 @@ c.drawString(21 * mm, 126 * mm, "Protection period")
 c.drawString(70 * mm, 126 * mm, "6.")
 text6 = ["The date printed in the box overleaf entitled \"CERTIFICATE DATE\" is the",
          "date of the certificate for the purposes of s.11 of the Land Charges Act 1972.",
-         "the date printed in the box entitled \"PROTECTION ENDS ON\" is the latest",
+         "The date printed in the box entitled \"PROTECTION ENDS ON\" is the latest",
          "date for the expiry of the period of protection which is conferred by that",
-         "section of the Act. This latter date us supplied for the convenience of the",
+         "section of the Act. This latter date is supplied for the convenience of the",
          "applicant."]
 build_paragraph(text6, 126)
 
