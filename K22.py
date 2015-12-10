@@ -4,7 +4,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader, Image
 #from PIL import Image
 
-c = canvas.Canvas('Test.pdf', pagesize=A4)
+c = canvas.Canvas('K22.pdf', pagesize=A4)
 c.setLineWidth(0.0125 * cm)
 
 
@@ -96,7 +96,7 @@ c.drawString(81 * mm, 99 * mm, "5.")
 c.drawString(88 * mm, 99 * mm, "Further information about procedures in the Land Charges")
 c.drawString(88 * mm, 94 * mm, "Department are contained in \"Practice Guide 63\"")
 c.drawString(88 * mm, 89 * mm, "obtainable on request from the address shown overleaf,")
-c.drawString(88 * mm, 84 * mm, "or from the Land Registry webside www.landregistry.gov.uk")
+c.drawString(88 * mm, 84 * mm, "or from the Land Registry website www.landregistry.gov.uk")
 
 
 
