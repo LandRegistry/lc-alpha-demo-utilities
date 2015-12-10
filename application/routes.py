@@ -6,6 +6,7 @@ import json
 import requests
 import datetime
 from elasticsearch import Elasticsearch
+from application.K18_v2 import build_result
 
 
 @app.route('/', methods=["GET"])
@@ -311,6 +312,50 @@ def search_details():
     return render_template('search_debtor.html', name_result=name_result, reg_no_result=reg_no_result,
                            forename=forename_input, surname=surname_input, complexname=complex_input,
                            db2_reg_no=db2_reg_no_input, database=database_input)
+
+
+@app.route('/test_print', methods=['GET'])
+def test_print():
+    text = {
+        "certificate_no": "G0442342",
+        "certificate_date": "07 DEC 2015",
+        "protection_period": "30 DEC 2015",
+        "counties": "DEVON",
+        "result": [
+            make_result("WILLIAM JOHN  * JONES *", "1963-1988", 1.00,
+                        [{"code": "NO SUBSISTING ENTRY", "particulars": ""}]),
+            make_result("MAGGIE  * JONES *",
+                        "1957-1988", 1.00,
+                        [{"code": "(1)", "particulars": "P.A.(B)  NO.  31134  DATED 13 MAY 2012"},
+                         {"code": "(5)", "particulars": "CAMBRIDGE COUNTY COURT NO 99 OF 2012"},
+                         {"code": "(6)",
+                          "particulars": "(N/A) AKA MARGARET KILN AKA MARGARET MASTERS RETIRED AND VERY HAPPY ABOUT IT"},
+                         {"code": "(7)", "particulars": "4 LODGE COURT PLYMOUTH PL7 7HH DEVON"}]
+                        )
+            ],
+        "reference": "MY REF",
+        "address": ["MR R BARKS",
+                    "123 NEW STREET",
+                    "PLYMOUTH",
+                    "DEVON",
+                    "PL1 1AA"],
+        "key_number": "-------",
+        "total_fee": "2.00"
+    }
+
+    build_result(text)
+
+    return Response(status=200, mimetype='application/json')
+
+
+def make_result(name_searched, period, fee, result):
+    my_dict = {
+        "name_searched": name_searched,
+        "period": period,
+        "fee": fee,
+        "result": result
+    }
+    return my_dict
 
 
 def submit_registration(application) -> object:
