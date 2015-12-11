@@ -34,9 +34,9 @@ def build_result(text):
     page_no = 1
     running_fee = 0
 
-    c.drawString(1.6 * cm, 26.95 * cm, text['certificate_no'])
+    c.drawString(1.8 * cm, 26.95 * cm, text['certificate_no'])
     c.drawString(5.4 * cm, 27 * cm, "PAGE " + str(page_no))
-    c.drawString(9.2 * cm, 26.95 * cm, text['certificate_date'])
+    c.drawString(9.4 * cm, 26.95 * cm, text['certificate_date'])
     c.drawString(16.9 * cm, 26.95 * cm, text['protection_period'])
     c.drawString(3.4 * cm, 24.3 * cm, text['counties'])
     c.drawString(2.2 * cm, 5 * cm, text['reference'])
@@ -60,11 +60,15 @@ def build_result(text):
                 c.drawString(12.4 * cm, 5 * cm, "FEES CARRIED FORWARD")
                 c.drawString(10.1 * cm, 5 * cm, text['key_number'])
                 c.drawString(18.8 * cm, 5 * cm, str(running_fee))
+                c.setFont('Courier-Bold', 10)
+                c.line(18.3 * cm, 3 * cm, 18.3 * cm, 3.8 * cm)  # first OMR mark
+                c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # second OMR mark
+                c.setFont('Courier', 12)
                 build_template()
                 c.setFont('Courier', 10)
-                c.drawString(1.6 * cm, 26.95 * cm, text['certificate_no'])
+                c.drawString(1.8 * cm, 26.95 * cm, text['certificate_no'])
                 c.drawString(5.4 * cm, 27 * cm, "PAGE " + str(page_no))
-                c.drawString(9.2 * cm, 26.95 * cm, text['certificate_date'])
+                c.drawString(9.4 * cm, 26.95 * cm, text['certificate_date'])
                 c.drawString(16.9 * cm, 26.95 * cm, text['protection_period'])
                 c.drawString(3.4 * cm, 24.3 * cm, text['counties'])
                 c.drawString(2.2 * cm, 5 * cm, text['reference'])
@@ -92,6 +96,11 @@ def build_result(text):
     c.drawString(10.1 * cm, 5 * cm, text['key_number'])
     c.drawString(12.9 * cm, 5 * cm, "AMOUNT PREPAID")
     c.drawString(18.8 * cm, 5 * cm, text['total_fee'])
+    c.setFont('Courier-Bold', 12)
+    c.line(17.8 * cm, 3 * cm, 17.8 * cm, 3.8 * cm)  # first OMR mark for final page
+    c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # second OMR mark for final page
+    c.line(10.8 * cm, 1.3 * cm, 11.6 * cm, 1.3 * cm) # third OMR mark for final page
+    c.setFont('Courier', 10)
     build_template()
     return 'done'
 
