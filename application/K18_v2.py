@@ -98,8 +98,8 @@ def build_result(text):
     c.drawString(18.8 * cm, 5 * cm, text['total_fee'])
     c.setFont('Courier-Bold', 12)
     c.line(17.8 * cm, 3 * cm, 17.8 * cm, 3.8 * cm)  # first OMR mark for final page
-    c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # second OMR mark for final page
-    c.line(10.8 * cm, 1.3 * cm, 11.6 * cm, 1.3 * cm) # third OMR mark for final page
+    c.line(18.6 * cm, 3 * cm, 18.6 * cm, 3.8 * cm)  # second OMR mark for final page
+    c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # third OMR mark for final page
     c.setFont('Courier', 10)
     build_template()
     return 'done'
