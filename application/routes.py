@@ -7,6 +7,7 @@ import requests
 import datetime
 from elasticsearch import Elasticsearch
 from application.K18_v2 import build_result
+from application.K17_v2 import build_k17_result
 
 
 @app.route('/', methods=["GET"])
@@ -316,6 +317,7 @@ def search_details():
 
 @app.route('/test_print', methods=['GET'])
 def test_print():
+    # build the K18 result
     text = {
         "certificate_no": "G0442342",
         "certificate_date": "07 DEC 2015",
@@ -340,15 +342,41 @@ def test_print():
                     "DEVON",
                     "PL1 1AA"],
         "key_number": "-------",
-        "total_fee": "2.00"
+        "total_fee": 2.00
     }
 
     build_result(text)
 
+    # Build the K17 result
+    text_k17 = {
+        "certificate_no": "G0423342",
+        "certificate_date": "07 DEC 2015",
+        "protection_period": "30 DEC 2015",
+        "counties": "DEVON",
+        "result": [
+            make_result("RICHARD MARKS  * JOHNS *", "2015-2015", 1.00),
+            make_result("THOMAS GERRY  * MARKS *", "2015-2015", 1.00),
+            make_result("MARY LIZZY WENDY  * MARKS *", "1975-2015", 1.00),
+            make_result("DAVID FREDDY  * MARKS *", "1975-1978", 1.00),
+            make_result("SAINT TONY'S UNIVERSITY COLLEGE LAMPETER", "1988-1989", 1.00),
+            make_result("THE PRINCIPAL TUTORS AND PROFESSORS OF SAINT TONY'S COLLEGE LAMPETER", "1966-1975", 1.00)
+        ],
+        "reference": "MY REF",
+        "address": ["MR R BARKS",
+                    "123 NEW STREET",
+                    "PLYMOUTH",
+                    "DEVON",
+                    "PL1 1AA"],
+        "key_number": "-------",
+        "total_fee": 6.00
+    }
+
+    build_k17_result(text_k17)
+
     return Response(status=200, mimetype='application/json')
 
 
-def make_result(name_searched, period, fee, result):
+def make_result(name_searched, period, fee, result=None):
     my_dict = {
         "name_searched": name_searched,
         "period": period,

@@ -50,7 +50,7 @@ def build_result(text):
     for entries in text['result']:
         c.drawString(1.1 * cm, res_y * cm, entries['name_searched'])
         c.drawString(15.6 * cm, res_y * cm, entries['period'])
-        c.drawString(18.8 * cm, res_y * cm, str(entries['fee']))
+        c.drawString(18.8 * cm, res_y * cm, "{0:.2f}".format(entries['fee']))
         running_fee += entries['fee']
         res_y -= 0.8
         for results in entries['result']:
@@ -59,7 +59,7 @@ def build_result(text):
                 c.drawString(4.2 * cm, 6.5 * cm, "CONTINUED ON PAGE " + str(page_no))
                 c.drawString(12.4 * cm, 5 * cm, "FEES CARRIED FORWARD")
                 c.drawString(10.1 * cm, 5 * cm, text['key_number'])
-                c.drawString(18.8 * cm, 5 * cm, str(running_fee))
+                c.drawString(18.8 * cm, 5 * cm, "{0:.2f}".format(running_fee))
                 c.setFont('Courier-Bold', 10)
                 c.line(18.3 * cm, 3 * cm, 18.3 * cm, 3.8 * cm)  # first OMR mark
                 c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # second OMR mark
@@ -80,7 +80,7 @@ def build_result(text):
 
                 c.drawString(1.1 * cm, 22.4 * cm, "CONTINUED FROM PAGE " + str(page_no - 1))
                 c.drawString(12.3 * cm, 22.4 * cm, "FEES BROUGHT FORWARD")
-                c.drawString(18.8 * cm, 22.4 * cm, str(running_fee))
+                c.drawString(18.8 * cm, 22.4 * cm, "{0:.2f}".format(running_fee))
                 res_y = 21.6
 
             c.drawString(2.1 * cm, (res_y + 0.1) * cm, results['code'])
@@ -95,7 +95,7 @@ def build_result(text):
 
     c.drawString(10.1 * cm, 5 * cm, text['key_number'])
     c.drawString(12.9 * cm, 5 * cm, "AMOUNT PREPAID")
-    c.drawString(18.8 * cm, 5 * cm, text['total_fee'])
+    c.drawString(18.8 * cm, 5 * cm, "{0:.2f}".format(text['total_fee']))
     c.setFont('Courier-Bold', 12)
     c.line(17.8 * cm, 3 * cm, 17.8 * cm, 3.8 * cm)  # first OMR mark for final page
     c.line(18.6 * cm, 3 * cm, 18.6 * cm, 3.8 * cm)  # second OMR mark for final page
