@@ -118,7 +118,7 @@ text3 = ["Searching against names is conducted in accordance with the",
          "In printing names overleaf the forename(s) of an individual",
          "precede the surname. The surname is contained within",
          "asterisks(*) to assist identification. In printing the names of",
-         "local and certain other authorities, plus signs(+) may be",
+         "local and certain other authorities, plus signs (+) may be",
          "present but these are for official use only."]
 build_paragraph(text3, 215)
 
@@ -158,7 +158,7 @@ build_paragraph(text7, 94)
 
 c.drawString(26 * mm, 69 * mm, "Enquiries")
 c.drawString(71 * mm, 69 * mm, "8.")
-text8 = ["Any enquiries regarding this certificate should quote the'",
+text8 = ["Any enquiries regarding this certificate should quote the",
          "\"CERTIFICATE NUMBER\" and the \"CERTIFICATE DATE\"",
          "and should be sent to the address shown overleaf."]
 build_paragraph(text8, 69)

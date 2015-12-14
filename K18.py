@@ -115,7 +115,7 @@ text3 = ["Searching against names is conducted in accordance with the arrangemen
          "the forename(s) of an individual precede the surname. The surname is",
          "contained within asterisks(*) to assist identification. Where a search reveals",
          "an entry the chargor's name is printed exactly as it is recorded in the index. In",
-         "printing the names of local and certain other authorities, plus signs(+) may",
+         "printing the names of local and certain other authorities, plus signs (+) may",
          "be present but these are for official use only."]
 build_paragraph(text3, 240)
 
@@ -128,7 +128,7 @@ c.drawString(86 * mm, 192 * mm, "(2)  Short description of the land.")
 c.drawString(86 * mm, 187 * mm, "(3)  Parish, place or district.")
 c.drawString(86 * mm, 182 * mm, "(4)  County.")
 c.drawString(86 * mm, 177 * mm, "(5)  Additional information regarding the entry (e.g. \"Priority")
-c.drawString(92 * mm, 172 * mm, "Notice only\" or \"Pursuant t Priority Notice No. ...\").")
+c.drawString(92 * mm, 172 * mm, "Notice only\" or \"Pursuant to Priority Notice No. ...\").")
 c.drawString(86 * mm, 167 * mm, "(6)  The title, trade or profession of the chargor.")
 c.drawString(86 * mm, 162 * mm, "(7)  Chargor's address.")
 
@@ -159,7 +159,7 @@ c.drawString(80 * mm, 96 * mm, "The fee amounts shown in this certificate are pr
 
 c.drawString(21 * mm, 87 * mm, "Practice Guide 63")
 c.drawString(70 * mm, 87 * mm, "8.")
-text8 = ["Further information on procedures for making applications to the Land",
+text8 = ["For further information on procedures for making applications to the Land",
          "Charges Department, see the Land Charges \"Practice Guide 63\"",
          "obtainable on request from the address shown overleaf, or from",
          "the Land Registry website www.landregistry.gov.uk"]

@@ -8,6 +8,7 @@ import datetime
 from elasticsearch import Elasticsearch
 from application.K18_v2 import build_result
 from application.K17_v2 import build_k17_result
+from application.K22_v2 import build_k22_result
 
 
 @app.route('/', methods=["GET"])
@@ -317,7 +318,7 @@ def search_details():
 
 @app.route('/test_print', methods=['GET'])
 def test_print():
-    # build the K18 result
+    # ----build the K18 result----
     text = {
         "certificate_no": "G0442342",
         "certificate_date": "07 DEC 2015",
@@ -341,13 +342,14 @@ def test_print():
                     "PLYMOUTH",
                     "DEVON",
                     "PL1 1AA"],
-        "key_number": "-------",
+        "key_number": "2244095",
+        "fee_description": "AMOUNT DEBITED",
         "total_fee": 2.00
     }
 
     build_result(text)
 
-    # Build the K17 result
+    # ----Build the K17 result----
     text_k17 = {
         "certificate_no": "G0423342",
         "certificate_date": "07 DEC 2015",
@@ -368,15 +370,43 @@ def test_print():
                     "DEVON",
                     "PL1 1AA"],
         "key_number": "-------",
+        "fee_description": "AMOUNT PREPAID",
         "total_fee": 6.00
     }
 
     build_k17_result(text_k17)
 
+    # ----Build the K22 result----
+    text_k22 = {
+        "application_type": "NEW REGISTRATION",
+        "official_ref": "PA/5555/15",
+        "registration_date": "09 SEP 2015",
+        "result": [
+            make_result("JEFF  * JONES *",
+                        None, None,
+                        [{"code": "(1)", "particulars": "P.A.(B)  NO.  5555  DATED 09 SEP 2015"},
+                         {"code": "(4)", "particulars": "BANKRUPTCY"},
+                         {"code": "(5)",
+                          "particulars": "PLYMOUTH COUNTY COURT NOT DEVON COUNTY COURT NO 7777 OF 2015"}]
+                        )
+        ],
+        "reference": "My reference is",
+        "address": ["MR R BARKS",
+                    "123 NEW STREET, REALLY LONG PLACE",
+                    "PLYMOUTH",
+                    "DEVON",
+                    "PL1 1AA"],
+        "key_number": "2244095",
+        "fee_description": "AMOUNT DEBITED",
+        "total_fee": 1.00
+    }
+
+    build_k22_result(text_k22)
+
     return Response(status=200, mimetype='application/json')
 
 
-def make_result(name_searched, period, fee, result=None):
+def make_result(name_searched, period=None, fee=None, result=None):
     my_dict = {
         "name_searched": name_searched,
         "period": period,

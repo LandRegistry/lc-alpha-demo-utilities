@@ -39,6 +39,7 @@ def build_result(text):
     c.drawString(9.4 * cm, 26.95 * cm, text['certificate_date'])
     c.drawString(16.9 * cm, 26.95 * cm, text['protection_period'])
     c.drawString(3.4 * cm, 24.3 * cm, text['counties'])
+    c.drawString(20 * cm, 24.3 * cm, str(page_no))
     c.drawString(2.2 * cm, 5 * cm, text['reference'])
 
     addr_y = 4
@@ -71,6 +72,7 @@ def build_result(text):
                 c.drawString(9.4 * cm, 26.95 * cm, text['certificate_date'])
                 c.drawString(16.9 * cm, 26.95 * cm, text['protection_period'])
                 c.drawString(3.4 * cm, 24.3 * cm, text['counties'])
+                c.drawString(20 * cm, 24.3 * cm, str(page_no))
                 c.drawString(2.2 * cm, 5 * cm, text['reference'])
 
                 addr_y = 4
@@ -94,7 +96,7 @@ def build_result(text):
         res_y -= 1
 
     c.drawString(10.1 * cm, 5 * cm, text['key_number'])
-    c.drawString(12.9 * cm, 5 * cm, "AMOUNT PREPAID")
+    c.drawString(12.9 * cm, 5 * cm, text['fee_description'])
     c.drawString(18.8 * cm, 5 * cm, "{0:.2f}".format(text['total_fee']))
     c.setFont('Courier-Bold', 12)
     c.line(17.8 * cm, 3 * cm, 17.8 * cm, 3.8 * cm)  # first OMR mark for final page
@@ -160,7 +162,7 @@ def build_template():
     c.drawString(17.7 * cm, 5 * cm, "£")
 
     c.setFont('Times-Roman', 8)
-    c.drawString(12.4 * cm, 4.2 * cm, "Please address any enquries to:-")
+    c.drawString(12.4 * cm, 4.2 * cm, "Please address any enquiries to:-")
     lc_address = ["Land Registry",
                   "Land Charges Department",
                   "PO Box 292",
@@ -208,7 +210,7 @@ def build_template():
              "the forename(s) of an individual precede the surname. The surname is",
              "contained within asterisks(*) to assist identification. Where a search reveals",
              "an entry the chargor's name is printed exactly as it is recorded in the index. In",
-             "printing the names of local and certain other authorities, plus signs(+) may",
+             "printing the names of local and certain other authorities, plus signs (+) may",
              "be present but these are for official use only."]
     build_paragraph(text3, 240)
 
@@ -221,7 +223,7 @@ def build_template():
     c.drawString(86 * mm, 187 * mm, "(3)  Parish, place or district.")
     c.drawString(86 * mm, 182 * mm, "(4)  County.")
     c.drawString(86 * mm, 177 * mm, "(5)  Additional information regarding the entry (e.g. \"Priority")
-    c.drawString(92 * mm, 172 * mm, "Notice only\" or \"Pursuant t Priority Notice No. ...\").")
+    c.drawString(92 * mm, 172 * mm, "Notice only\" or \"Pursuant to Priority Notice No. ...\").")
     c.drawString(86 * mm, 167 * mm, "(6)  The title, trade or profession of the chargor.")
     c.drawString(86 * mm, 162 * mm, "(7)  Chargor's address.")
 
@@ -252,7 +254,7 @@ def build_template():
 
     c.drawString(21 * mm, 87 * mm, "Practice Guide 63")
     c.drawString(70 * mm, 87 * mm, "8.")
-    text8 = ["Further information on procedures for making applications to the Land",
+    text8 = ["For further information on procedures for making applications to the Land",
              "Charges Department, see the Land Charges \"Practice Guide 63\"",
              "obtainable on request from the address shown overleaf, or from",
              "the Land Registry website www.landregistry.gov.uk"]

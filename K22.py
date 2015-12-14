@@ -13,7 +13,7 @@ c.line(0.7 * cm, 5.2 * cm, 20.3 * cm, 5.2 * cm)  # Line above cust address
 c.line(0.7 * cm, 6.4 * cm, 20.3 * cm, 6.4 * cm)  # Line above key num, applicants ref
 c.line(10.8 * cm, 6.4 * cm, 10.8 * cm, 0.8 * cm)  # Line between bottom boxes
 c.line(0.7 * cm, 23.5 * cm, 20.3 * cm, 23.5 * cm)  # Line under 'Name of the estate owner'
-c.line(3 * cm, 24.3 * cm, 3 * cm, 22.8 * cm)  # Wierd crossing line
+c.line(3 * cm, 24.3 * cm, 3 * cm, 22.8 * cm)  # Weird crossing line
 c.line(6.8 * cm, 25.4 * cm, 6.8 * cm, 23.5 * cm)  # Top separator
 c.line(13.3 * cm, 6.4 * cm, 13.3 * cm, 5.2 * cm)  # Right of key number
 c.line(18.4 * cm, 6.4 * cm, 18.4 * cm, 5.2 * cm)  # Right of £
@@ -31,7 +31,7 @@ c.drawString(6.9 * cm, 28 * cm, "ACKNOWLEDGEMENT OF APPLICATION")
 c.setFont('Times-Roman', 8)
 c.drawString(0.7 * cm, 27.2 * cm, "The Chief Land Registrar acknowledges receipt of the undermentioned "
              "application to which effect has been given on the date and under the official")
-c.drawString(0.7 * cm, 26.9 * cm, "reference number below")
+c.drawString(0.7 * cm, 26.9 * cm, "reference number below.")
 c.drawString(17.8 * cm, 28.6 * cm, "Form")
 c.drawString(1.8 * cm, 26.2 * cm, "TYPE OF APPLICATION")
 c.drawString(8.25 * cm, 26.2 * cm, "OFFICIAL REFERENCE NUMBER")
@@ -84,11 +84,11 @@ c.drawString(95 * mm, 176 * mm, "Date of Registration.")
 c.drawString(95 * mm, 167 * mm, "Short description of the land.")
 c.drawString(95 * mm, 156 * mm, "Parish, place or district.")
 c.drawString(95 * mm, 146 * mm, "County.")
-c.drawString(95 * mm, 135 * mm, "Additional information regarding th entry.")
+c.drawString(95 * mm, 135 * mm, "Additional information regarding the entry.")
 
 c.drawString(22 * mm, 120 * mm, "Fees")
 c.drawString(81 * mm, 120 * mm, "4.")
-c.drawString(88 * mm, 120 * mm, "The fee amounts shown in this acknowlegdment are")
+c.drawString(88 * mm, 120 * mm, "The fee amounts shown in this acknowledgement are")
 c.drawString(88 * mm, 115 * mm, "provided for information only.")
 
 c.drawString(22 * mm, 99 * mm, "Practice Guide 63")

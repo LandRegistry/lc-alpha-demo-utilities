@@ -92,7 +92,7 @@ def build_k17_result(text):
         res_y -= 0.4
 
     c.drawString(10.1 * cm, 5 * cm, text['key_number'])
-    c.drawString(12.9 * cm, 5 * cm, "AMOUNT PREPAID")
+    c.drawString(12.9 * cm, 5 * cm, text['fee_description'])
     c.drawString(18.8 * cm, 5 * cm, "{0:.2f}".format(text['total_fee']))
     c.setFont('Courier-Bold', 12)
     c.line(17.8 * cm, 3 * cm, 17.8 * cm, 3.8 * cm)  # first OMR mark for final page
@@ -161,7 +161,7 @@ def build_template():
     c.drawString(17.7 * cm, 5 * cm, "£")
 
     c.setFont('Times-Roman', 8)
-    c.drawString(12.4 * cm, 4.2 * cm, "Please address any enquries to:-")
+    c.drawString(12.4 * cm, 4.2 * cm, "Please address any enquiries to:-")
     lc_address = ["Land Registry",
                   "Land Charges Department",
                   "PO Box 292",
@@ -210,7 +210,7 @@ def build_template():
              "In printing names overleaf the forename(s) of an individual",
              "precede the surname. The surname is contained within",
              "asterisks(*) to assist identification. In printing the names of",
-             "local and certain other authorities, plus signs(+) may be",
+             "local and certain other authorities, plus signs (+) may be",
              "present but these are for official use only."]
     build_paragraph(text3, 215)
 
@@ -250,7 +250,7 @@ def build_template():
 
     c.drawString(26 * mm, 69 * mm, "Enquiries")
     c.drawString(71 * mm, 69 * mm, "8.")
-    text8 = ["Any enquiries regarding this certificate should quote the'",
+    text8 = ["Any enquiries regarding this certificate should quote the",
              "\"CERTIFICATE NUMBER\" and the \"CERTIFICATE DATE\"",
              "and should be sent to the address shown overleaf."]
     build_paragraph(text8, 69)
