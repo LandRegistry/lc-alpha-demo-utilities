@@ -57,9 +57,15 @@ def build_k17_result(text):
             c.drawString(12.4 * cm, 5 * cm, "FEES CARRIED FORWARD")
             c.drawString(10.1 * cm, 5 * cm, text['key_number'])
             c.drawString(18.8 * cm, 5 * cm, "{0:.2f}".format(running_fee))
-            c.setFont('Courier-Bold', 10)
-            c.line(18.3 * cm, 3 * cm, 18.3 * cm, 3.8 * cm)  # first OMR mark
-            c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # second OMR mark
+            c.setLineWidth(0.05 * cm)
+            if text['mail_type'] == 'DX':
+                c.line(18.3 * cm, 3 * cm, 18.3 * cm, 3.8 * cm)  # first OMR mark
+                c.line(18.7 * cm, 3 * cm, 18.7 * cm, 3.8 * cm)  # second OMR mark
+                c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # third OMR mark
+            else:
+                c.line(18.3 * cm, 3 * cm, 18.3 * cm, 3.8 * cm)  # first OMR mark
+                c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # second OMR mark
+
             c.setFont('Courier', 12)
             build_template()
             c.setFont('Courier', 10)
@@ -91,13 +97,18 @@ def build_k17_result(text):
         p.drawOn(c, 1.2 * cm, res_y * cm)
         res_y -= 0.4
 
+    c.drawString(0.9 * cm, res_y * cm, "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
     c.drawString(10.1 * cm, 5 * cm, text['key_number'])
     c.drawString(12.9 * cm, 5 * cm, text['fee_description'])
     c.drawString(18.8 * cm, 5 * cm, "{0:.2f}".format(text['total_fee']))
-    c.setFont('Courier-Bold', 12)
-    c.line(17.8 * cm, 3 * cm, 17.8 * cm, 3.8 * cm)  # first OMR mark for final page
-    c.line(18.6 * cm, 3 * cm, 18.6 * cm, 3.8 * cm)  # second OMR mark for final page
-    c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # third OMR mark for final page
+    c.setLineWidth(0.05 * cm)
+    if text['mail_type'] == 'DX':
+        c.line(17.7 * cm, 3 * cm, 17.7 * cm, 3.8 * cm)  # first OMR mark final page
+        c.line(18.7 * cm, 3 * cm, 18.7 * cm, 3.8 * cm)  # second OMR mark final page
+        c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # third OMR mark final page
+    else:
+        c.line(17.7 * cm, 3 * cm, 17.7 * cm, 3.8 * cm)  # first OMR mark final page
+        c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # second OMR mark final page
     c.setFont('Courier', 10)
     build_template()
     return 'done'
@@ -107,7 +118,7 @@ def build_template():
     c.setLineWidth(0.0125 * cm)
 
 
-    c.rect(0.6 * cm, 0.6 * cm, 19.6 * cm, 23.3 * cm)  # Main box
+    c.rect(0.6 * cm, 0.6 * cm, 19.7 * cm, 23.3 * cm)  # Main box
     c.rect(0.6 * cm, 24.8 * cm, 17.5 * cm, 0.4 * cm)  # Search particulars title
     c.rect(0.6 * cm, 23.9 * cm, 17.5 * cm, 0.9 * cm)  # Search particulars details
 
@@ -140,7 +151,7 @@ def build_template():
     c.drawString(0.9 * cm, 24.4 * cm, "COUNTY OR")
     c.drawString(1 * cm, 24 * cm, "COUNTIES")
     c.line(2.8 * cm, 23.9 * cm, 2.8 * cm, 24.8 * cm)  # Line after the counties text
-    c.line(0.6 * cm, 23 * cm, 20.2 * cm, 23 * cm)  # Line under Name(s)
+    c.line(0.6 * cm, 23 * cm, 20.3 * cm, 23 * cm)  # Line under Name(s)
     c.drawString(6.9 * cm, 23.3 * cm, "NAME(S)")
 
     c.line(14.9 * cm, 5.9 * cm, 14.9 * cm, 23.9 * cm)  # start of period column
@@ -149,8 +160,8 @@ def build_template():
     c.drawString(18.9 * cm, 23.4 * cm, "Fees")
     c.drawString(19.1 * cm, 23.1 * cm, "£")
 
-    c.line(0.6 * cm, 5.9 * cm, 20.2 * cm, 5.9 * cm)  # line above applicants ref and key number
-    c.line(0.6 * cm, 4.6 * cm, 20.2 * cm, 4.6 * cm)  # line below applicants ref and key number
+    c.line(0.6 * cm, 5.9 * cm, 20.3 * cm, 5.9 * cm)  # line above applicants ref and key number
+    c.line(0.6 * cm, 4.6 * cm, 20.3 * cm, 4.6 * cm)  # line below applicants ref and key number
     c.line(9.45 * cm, 4.6 * cm, 9.45 * cm, 5.9 * cm)  # line before key number
     c.line(12.1 * cm, 0.6 * cm, 12.1 * cm, 5.9 * cm)  # line after key number
     c.line(18.1 * cm, 4.6 * cm, 18.1 * cm, 5.9 * cm)  # line after £

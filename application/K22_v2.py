@@ -46,9 +46,15 @@ def build_k22_result(text):
                 page_no += 1
                 c.drawString(4.2 * cm, 6.5 * cm, "CONTINUED ON PAGE " + str(page_no))
                 c.drawString(11.2 * cm, 5.6 * cm, text['key_number'])
-                c.setFont('Courier-Bold', 10)
-                c.line(18.3 * cm, 3 * cm, 18.3 * cm, 3.8 * cm)  # first OMR mark
-                c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # second OMR mark
+                c.setLineWidth(0.05 * cm)
+                if text['mail_type'] == 'DX':
+                    c.line(18.3 * cm, 3 * cm, 18.3 * cm, 3.8 * cm)  # first OMR mark
+                    c.line(18.7 * cm, 3 * cm, 18.7 * cm, 3.8 * cm)  # second OMR mark
+                    c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # third OMR mark
+                else:
+                    c.line(18.3 * cm, 3 * cm, 18.3 * cm, 3.8 * cm)  # first OMR mark
+                    c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # second OMR mark
+
                 c.setFont('Courier', 12)
                 build_template()
                 c.setFont('Courier', 10)
@@ -87,10 +93,14 @@ def build_k22_result(text):
     else:
         c.drawString(18.5 * cm, 5.6 * cm, "{0:.2f}".format(text['total_fee']))
 
-    c.setFont('Courier-Bold', 12)
-    c.line(17.8 * cm, 3 * cm, 17.8 * cm, 3.8 * cm)  # first OMR mark for final page
-    c.line(18.6 * cm, 3 * cm, 18.6 * cm, 3.8 * cm)  # second OMR mark for final page
-    c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # third OMR mark for final page
+    c.setLineWidth(0.05 * cm)
+    if text['mail_type'] == 'DX':
+        c.line(17.7 * cm, 3 * cm, 17.7 * cm, 3.8 * cm)  # first OMR mark final page
+        c.line(18.7 * cm, 3 * cm, 18.7 * cm, 3.8 * cm)  # second OMR mark final page
+        c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # third OMR mark final page
+    else:
+        c.line(17.7 * cm, 3 * cm, 17.7 * cm, 3.8 * cm)  # first OMR mark final page
+        c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # second OMR mark final page
     c.setFont('Courier', 10)
     build_template()
 

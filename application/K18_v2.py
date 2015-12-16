@@ -1,14 +1,8 @@
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm, mm
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.utils import ImageReader, Image
-#from PIL import Image
-from reportlab.platypus import Paragraph, Frame, BaseDocTemplate, PageTemplate
-from reportlab.lib.styles import ParagraphStyle, StyleSheet1
-from reportlab.lib.enums import TA_LEFT
-from reportlab.lib.colors import (black
-)
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import Paragraph
+from reportlab.lib.styles import ParagraphStyle
 
 c = canvas.Canvas('K18.pdf', pagesize=A4)
 
@@ -61,9 +55,15 @@ def build_result(text):
                 c.drawString(12.4 * cm, 5 * cm, "FEES CARRIED FORWARD")
                 c.drawString(10.1 * cm, 5 * cm, text['key_number'])
                 c.drawString(18.8 * cm, 5 * cm, "{0:.2f}".format(running_fee))
-                c.setFont('Courier-Bold', 10)
-                c.line(18.3 * cm, 3 * cm, 18.3 * cm, 3.8 * cm)  # first OMR mark
-                c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # second OMR mark
+                c.setLineWidth(0.05 * cm)
+                if text['mail_type'] == 'DX':
+                    c.line(18.3 * cm, 3 * cm, 18.3 * cm, 3.8 * cm)  # first OMR mark
+                    c.line(18.7 * cm, 3 * cm, 18.7 * cm, 3.8 * cm)  # second OMR mark
+                    c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # third OMR mark
+                else:
+                    c.line(18.3 * cm, 3 * cm, 18.3 * cm, 3.8 * cm)  # first OMR mark
+                    c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # second OMR mark
+
                 c.setFont('Courier', 12)
                 build_template()
                 c.setFont('Courier', 10)
@@ -95,13 +95,18 @@ def build_result(text):
             res_y -= 0.4
         res_y -= 1
 
+    c.drawString(0.9 * cm, res_y * cm, "- - - - - - - - - - - - - END OF SEARCH - - - - - - - - - - - - -")
     c.drawString(10.1 * cm, 5 * cm, text['key_number'])
     c.drawString(12.9 * cm, 5 * cm, text['fee_description'])
     c.drawString(18.8 * cm, 5 * cm, "{0:.2f}".format(text['total_fee']))
-    c.setFont('Courier-Bold', 12)
-    c.line(17.8 * cm, 3 * cm, 17.8 * cm, 3.8 * cm)  # first OMR mark for final page
-    c.line(18.6 * cm, 3 * cm, 18.6 * cm, 3.8 * cm)  # second OMR mark for final page
-    c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # third OMR mark for final page
+    c.setLineWidth(0.05 * cm)
+    if text['mail_type'] == 'DX':
+        c.line(17.7 * cm, 3 * cm, 17.7 * cm, 3.8 * cm)  # first OMR mark final page
+        c.line(18.7 * cm, 3 * cm, 18.7 * cm, 3.8 * cm)  # second OMR mark final page
+        c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # third OMR mark final page
+    else:
+        c.line(17.7 * cm, 3 * cm, 17.7 * cm, 3.8 * cm)  # first OMR mark final page
+        c.line(19.1 * cm, 3 * cm, 19.1 * cm, 3.8 * cm)  # second OMR mark final page
     c.setFont('Courier', 10)
     build_template()
     return 'done'

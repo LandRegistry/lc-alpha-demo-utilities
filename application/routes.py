@@ -344,7 +344,8 @@ def test_print():
                     "PL1 1AA"],
         "key_number": "2244095",
         "fee_description": "AMOUNT DEBITED",
-        "total_fee": 2.00
+        "total_fee": 2.00,
+        "mail_type": 'DX'
     }
 
     build_result(text)
@@ -371,7 +372,8 @@ def test_print():
                     "PL1 1AA"],
         "key_number": "-------",
         "fee_description": "AMOUNT PREPAID",
-        "total_fee": 6.00
+        "total_fee": 6.00,
+        "mail_type": 'RM'
     }
 
     build_k17_result(text_k17)
@@ -398,7 +400,8 @@ def test_print():
                     "PL1 1AA"],
         "key_number": "2244095",
         "fee_description": "AMOUNT DEBITED",
-        "total_fee": 1.00
+        "total_fee": 1.00,
+        "mail_type": 'RM'
     }
 
     build_k22_result(text_k22)
